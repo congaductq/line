@@ -1,11 +1,16 @@
 import React from 'react'
 import ReactDom from 'react-dom'
+import { BrowserRouter as Router, Route } from 'react-router-dom'
+import Homepage from './components/Homepage'
+import About from './components/About'
 import './static/css/bootstrap.min.css'
+import './static/less/site.less'
 
 const App = () => (
-  <div className="d-flex justify-content-center">
-    Hello World!
-  </div>
+  <Router>
+    <Route exact path="/" component={Homepage} />
+    <Route path="/about" component={About} />
+  </Router>
 )
 
 ReactDom.render(<App />, document.getElementById('root'))

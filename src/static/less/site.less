@@ -1,0 +1,157 @@
+@import "common/color.less";
+
+// LAYOUT
+header {
+  min-height: 80px;
+  display: flex;
+  align-items: center;
+  background: @color-main;
+}
+main {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 110px);
+  padding: 20px 0;
+}
+footer {
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
+  background: @color-main;
+  color: #eee;
+}
+
+.cms-logo {
+  display: flex;
+  font-weight: 700;
+  font-size: 2rem;
+  color: #555;
+  margin-right: 3rem;
+  color: white !important;
+  white-space: nowrap;
+}
+.cms-nav {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  width: 100%;
+}
+.cms-nav-bar {
+  display: flex;
+  height: 40px;
+}
+.cms-nav-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: white !important;
+  padding: 0 10px;
+  margin: 3px;
+  border-radius: 5px;
+  &.active {
+    background: @color-nav-active;
+  }
+  &:hover {
+    background: @color-nav-active;
+  }
+}
+
+// COMMON
+a,
+a:visited,
+a:focus,
+a:active,
+a:hover {
+  text-decoration: none;
+  outline: none;
+  color: @color-link;
+}
+a {
+  font-weight: normal;
+  color: @color-link;
+  transition: all 0.3s ease;
+  -webkit-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  cursor: pointer;
+  word-wrap: break-word;
+}
+.container {
+  max-width: 1400px;
+}
+
+// POP-UP
+.popup {
+  display: none;
+  position: fixed;
+  justify-content: center;
+  width: 100%;
+  top: 100px;
+  left: 0px;
+  z-index: 101;
+  ::-webkit-scrollbar-track
+  {
+    box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    border-radius: 4px;
+    background-color: #F5F5F5;
+  }
+  ::-webkit-scrollbar
+  {
+    width: 8px;
+    background-color: #F5F5F5;
+  }
+  ::-webkit-scrollbar-thumb
+  {
+    border-radius: 4px;
+    box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+    background-color: #babac0;
+  }
+}
+.popup-bg{
+  position:fixed;
+  top: 0;
+  background: black;
+  width: 100%;
+  height: 100%;
+  opacity: .2;
+}
+.popup-main {
+  max-width: 40em;
+  background: white;
+  color: #333;
+  margin: 0 auto;
+  z-index: 1;
+  position: absolute;
+  left: 0;
+  right: 0;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  &.large {
+    max-width: 53em;
+    border-radius: 10px;
+  }
+  &.message {
+    max-width: 22em;
+    padding: 25px;
+  }
+  .night-mode & {
+    background: #263238;
+    color: #ddd;
+  }
+}
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 1.2rem;
+}
+.header-button {
+  display: flex;
+  cursor: pointer;
+}
