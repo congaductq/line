@@ -14,7 +14,7 @@ module.exports = {
       exclude: /node_modules/,
       loader: 'babel-loader',
       query: {
-        presets: ['es2015', 'react', 'stage-0'],
+        presets: ['es2017', 'react', 'stage-0'],
       },
     },
     {
@@ -38,6 +38,14 @@ module.exports = {
           },
         },
       ],
+    },
+    {
+      test: /\.(gif|jpe?g|png|ico)$/,
+      loader: 'url-loader?limit=10000',
+    },
+    {
+      test: /\.(otf|eot|svg|ttf|woff|woff2).*$/,
+      loader: 'url-loader?limit=10000',
     },
     ],
   },

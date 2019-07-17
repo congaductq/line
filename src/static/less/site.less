@@ -1,6 +1,9 @@
 @import "common/color.less";
 
 // LAYOUT
+body {
+  background: @color-background;
+}
 header {
   min-height: 80px;
   display: flex;
@@ -11,7 +14,7 @@ main {
   display: flex;
   flex-direction: column;
   min-height: calc(100vh - 110px);
-  padding: 20px 0;
+  padding: 30px 0;
 }
 footer {
   height: 30px;
@@ -50,7 +53,7 @@ footer {
   font-weight: 500;
   color: white !important;
   padding: 0 10px;
-  margin: 3px;
+  margin: 3px 5px 3px 0;
   border-radius: 5px;
   &.active {
     background: @color-nav-active;
@@ -82,6 +85,65 @@ a {
 .container {
   max-width: 1400px;
 }
+.search-form {
+  height: 34px;
+  border-radius: 0.25em;
+  max-width: 500px;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  border-radius: 2px;
+  border-bottom: 1px solid #cfd0d3;
+  font-size: 14px;
+  line-height: 14px;
+  color: #707990;
+  outline: 0;
+}
+.search-form:focus {
+  border-color: #ced4da;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  border-bottom: 1px solid #cfd0d3;
+}
+.form-control {
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  border-radius: 2px;
+}
+.form-control:focus {
+  border-color: #ced4da;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  border-bottom: 1px solid #cfd0d3;
+}
+.input-container {
+  padding: 6px 12px 6px 12px;
+  display: flex;
+  flex-direction: column;
+  input {
+    height: 34px;
+  }
+  label {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0;
+    margin-right: 30px;
+    input {
+      margin-right: 8px;
+    }
+  }
+}
+.input-label {
+  display: flex;
+  color: #555;
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 2px;
+}
+.input-sub-table {
+  display: flex;
+  color: @color-title-sub;
+  font-size: 0.9rem;
+}
 
 // POP-UP
 .popup {
@@ -89,7 +151,7 @@ a {
   position: fixed;
   justify-content: center;
   width: 100%;
-  top: 100px;
+  top: 80px;
   left: 0px;
   z-index: 101;
   ::-webkit-scrollbar-track
@@ -110,7 +172,7 @@ a {
     background-color: #babac0;
   }
 }
-.popup-bg{
+.popup__bg {
   position:fixed;
   top: 0;
   background: black;
@@ -118,8 +180,8 @@ a {
   height: 100%;
   opacity: .2;
 }
-.popup-main {
-  max-width: 40em;
+.popup__main {
+  width: 70%;
   background: white;
   color: #333;
   margin: 0 auto;
@@ -132,26 +194,106 @@ a {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  &.large {
-    max-width: 53em;
-    border-radius: 10px;
-  }
-  &.message {
-    max-width: 22em;
-    padding: 25px;
-  }
   .night-mode & {
     background: #263238;
     color: #ddd;
   }
 }
-.header-container {
+.popup__btn {
   display: flex;
+  justify-content: center;
+  align-items: center;
+  white-space: nowrap;
+  cursor: pointer;
+  background: @color-list;
+  color: white;
+  border-radius: 2px;
+  padding: 4px 12px;
+}
+.popup__main__action {
+  padding: 6px 25px;
+  background: @color-list;
+  color: #fff;
+  border-radius: 5px;
+  border: 1px solid transparent;
+  cursor: pointer;
+}
+.popup__header__container {
+  display: flex;
+  align-items: center;
   justify-content: space-between;
   width: 100%;
-  padding: 1.2rem;
+  padding: 15px 20px;
+  border-bottom: 1px solid @color-background-opacity-dark;
+  color: #555;
+  font-size: 1.3rem;
 }
-.header-button {
-  display: flex;
+.popup__header__button {
   cursor: pointer;
+  width: 16px;
+  height: 16px;
+}
+.popup_modal {
+  padding: 30px;
+  width: 100%;
+}
+
+// TAG
+.input-tag {
+  background: white;
+  border: 1px solid #d6d6d6;
+  border-radius: 2px;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 5px 5px 0;
+}
+
+.input-tag input {
+  border: none;
+  width: 100%;
+}
+
+.input-tag__tags {
+  display: inline-flex;
+  flex-wrap: wrap;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+.input-tag__tags li {
+  align-items: center;
+  background: #85A3BF;
+  border-radius: 2px;
+  color: white;
+  display: flex;
+  font-weight: 300;
+  list-style: none;
+  margin-bottom: 5px;
+  margin-right: 5px;
+  padding: 5px 10px;
+}
+
+.input-tag__tags li button {
+  align-items: center;
+  appearance: none;
+  background: #333333;
+  border: none;
+  border-radius: 50%;
+  color: white;
+  cursor: pointer;
+  display: inline-flex;
+  font-size: 12px;
+  height: 15px;
+  justify-content: center;
+  line-height: 0;
+  margin-left: 8px;
+  transform: rotate(45deg);
+  width: 15px;
+}
+
+.input-tag__tags li.input-tag__tags__input {
+  background: none;
+  flex-grow: 1;
+  padding: 0;
 }

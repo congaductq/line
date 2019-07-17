@@ -1,42 +1,23 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import CloseImg from '~/static/img/close.png'
 
 class Modal extends Component {
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      show: false,
-
-    }
-  }
-
-  onShow = () => {
-    this.setState({ show: true })
-  }
-
-  onHide = () => {
-    this.setState({ show: false })
-  }
-
-  onKeyUp = (e) => {
-    console.log(e)
-  }
-
   render() {
-    const { show } = this.state
     const {
-      children, display, classNameButton, header,
+      children, header, displayModal, onClose,
     } = this.props
     return (
       <React.Fragment>
-        <div role="button" tabIndex="0" className={classNameButton || 'popup-btn'} onClick={() => this.onShow()} onKeyUp={this.onKeyUp}>{display}</div>
-        <div className="popup" style={{ display: show ? 'flex' : 'none' }}>
-          <div role="button" tabIndex="0" className="popup-bg" onClick={() => this.onHide()} onKeyUp={this.onKeyUp} />
-          <div className="popup-main">
-            <div className="header-container">
-              <div className="popup-header">{header}</div>
-              <div className="header-button" role="button" tabIndex="0" onClick={() => this.onHide()} onKeyUp={this.onKeyUp}>X</div>
+        <div className="popup" style={{ display: displayModal ? 'flex' : 'none' }}>
+          <div role="button" tabIndex="0" className="popup__bg" onClick={() => onClose()} onKeyUp={this.onKeyUp} />
+          <div className="popup__main">
+            <div className="popup__header__container">
+              <div className="d-flex">&nbsp;</div>
+              <div className="popup__header">{header}</div>
+              <div role="button" tabIndex="0" onClick={() => onClose()} onKeyUp={this.onKeyUp}>
+                <img className="popup__header__button" src={CloseImg} alt="close" />
+              </div>
             </div>
             { children }
           </div>
@@ -51,9 +32,9 @@ Modal.propTypes = {
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
   ]).isRequired,
-  display: PropTypes.string.isRequired,
-  classNameButton: PropTypes.string,
   header: PropTypes.string,
+  displayModal: PropTypes.bool,
+  onClose: PropTypes.func,
 }
 
 export default Modal

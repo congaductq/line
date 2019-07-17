@@ -1,4 +1,4 @@
-export const FEILDS = {
+export const TRUCK_FIELDS = {
   PLATE: 'plate',
   CARGO_TYPE: 'cargoType',
   DRIVER: 'driver',
