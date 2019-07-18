@@ -1,5 +1,6 @@
 
 @import "common/color.less";
+@import "common/with-table-and-form.less";
 
 .control {
   display: flex;
@@ -20,11 +21,8 @@
   width: 100%;
   font-size: 14px;
   box-shadow: 1px 1px 3px 0 rgba(0, 0, 0, .06);
-  thead {
-    border-bottom: 1px solid @color-background-opacity;
-  }
   th, td {
-    padding: 10px 8px;
+    padding: 15px 8px;
   }
   th {
     line-height: 1.4;
@@ -65,24 +63,51 @@
       border-left: none;
       box-shadow: 1px 0 5px -1px  @color-background-opacity;
     }
-    &:nth-child(8) {
+    // TEXT-ALIGN CENTER
+    &:nth-child(4), &:nth-child(6), &:nth-child(8), &:nth-child(9) {
       text-align: center;
+    }
+    // BOLD
+    &:nth-child(3), &:nth-child(9) {
+      font-weight: 500;
+    }
+    &:nth-child(2), &:nth-child(7), &:nth-child(10) {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    &:nth-child(5) {
+      text-align: right;
+    }
+    &:nth-child(3) {
+      cursor: pointer;
+      color: @color-link;
+    }
+    &:nth-child(2), &:nth-child(7) {
+      max-width: 140px;
+    }
+    &:nth-child(8) {
       max-width: 50px;
     }
     &:nth-child(9) {
-      font-weight: 500;
       text-align: center;
       max-width: 50px;
     }
-    &.stop {
+    &:nth-child(10) {
+      max-width: 115px;
+    }
+    &.text-red {
       color: @color-status-stop;
     }
-    &.new {
+    &.text-blue {
       color: @color-status-new;
     }
-    &.use {
-      color: @color-status-use;
+    &.text-normal {
+      color: @color-grey;
     }
+  }
+  thead {
+    border-bottom: 1px solid @color-background-opacity;
   }
 }
 
@@ -96,53 +121,5 @@
   opacity: .6;
   &:hover {
     opacity: 1;
-  }
-}
-
-// SEARCH
-.auto-box {
-  position: relative;
-}
-.suggestion-box {
-  min-width: 100%;
-  max-height: 480px;
-  position: absolute;
-  border-radius: 5px;
-  top: calc(2rem + 8px);
-  z-index: 100;
-  box-shadow: 0 0 6px 0 rgba(0, 0, 0, .2);
-  background: white;
-  .night-mode & {
-      background: #263238;
-  }
-  table {
-    display: flex;
-    flex-direction: column;
-  }
-  tr {
-    display: flex;
-    width: 100%;
-    cursor: pointer;
-    &:hover {
-      background: #edf1f2;
-      .night-mode & {
-        background: #20c997;
-      }
-    }
-    &:not(:first-child) {
-      border-top: 1px solid @color-background-opacity;
-    }
-  }
-  td {
-    display: flex;
-    padding: 8px;
-    &:first-child {
-      width: 60%;
-    }
-    &:nth-child(n+2) {
-      color: @color-title-sub;
-      flex: 1;
-      text-align: right;
-    }
   }
 }

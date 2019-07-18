@@ -8,11 +8,11 @@ class Layout extends Component {
     return (
       <div>
         <header>
-          <div className="cms-nav container">
-            <Link to="/" className="cms-logo">TRUM</Link>
-            <div className="cms-nav-bar">
-              <Link to="/" className={`cms-nav-item ${pathname === '/' ? ' active' : ''}`}>Truck List</Link>
-              <Link to="/about" className={`cms-nav-item ${pathname && pathname.includes('/about') ? ' active' : ''}`}>About</Link>
+          <div className="tms-nav container">
+            <Link to="/" className="tms-logo">TRUM</Link>
+            <div className="tms-nav-bar">
+              <Link to="/" className={`tms-nav-item ${(new RegExp('^/[0-9]+$|/$')).test(pathname) ? ' active' : ''}`}>Truck List</Link>
+              <Link to="/about" className={`tms-nav-item ${pathname && pathname.includes('/about') ? ' active' : ''}`}>About</Link>
             </div>
           </div>
         </header>

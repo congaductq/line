@@ -8,8 +8,9 @@ import './static/less/site.less'
 
 const App = () => (
   <Router>
-    <Route exact path="/" component={Homepage} />
     <Route path="/about" component={About} />
+    <Route exact path="/" component={Homepage} />
+    <Route exact path="/:page" component={Homepage} />
   </Router>
 )
 

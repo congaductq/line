@@ -6,10 +6,11 @@ import List from './List'
 import TruckModal from './Modal/TruckModal'
 import '~/static/less/index.less'
 import { MODAL_TYPE } from '~/constants/modal'
-import DefaultList from '~/static/data'
+import DefaultTruckList, { STATUS } from '~/static/data'
 import { TRUCK_FIELDS } from '~/constants/car'
 import { KEYS, get, set } from '../utils/localStorage'
 import { formatLargeNumber } from '../utils/textFormatter'
+import { containKeyword } from '../utils/common'
 
 const EMPTY_DATA = Object.values(TRUCK_FIELDS).reduce((result, item) => (Object.assign(result, { [item]: '' })), {})
 
@@ -18,15 +19,13 @@ class Homepage extends Component {
     super(props)
 
     this.state = {
+      data: get(KEYS.TRUCK_DATA) || [...DefaultTruckList],
       keyword: '',
-      data: get(KEYS.TRUCK_DATA) || DefaultList,
       displayModal: false,
       modalType: MODAL_TYPE.CREATE,
       modalData: EMPTY_DATA,
     }
   }
-
-  containKeyword = (str, keyword) => !keyword || str.toString().toLowerCase().includes(keyword.toLowerCase())
 
   onAction = () => {
     const { modalType } = this.state
@@ -89,10 +88,25 @@ class Homepage extends Component {
   }
 
   render() {
-    const { location: { pathname } } = this.props
+    const { location: { pathname }, match: { params: { page } } } = this.props
     const {
-      keyword, displayModal, modalType, modalData, data,
+      keyword, displayModal, modalType, modalData, data: dataState,
     } = this.state
+
+    // ASSUME FILTER DATA
+    const data = dataState.filter(x => (
+      containKeyword(x.plate, keyword)
+      || containKeyword(x.cargoType.map(y => y.name).join(', '), keyword)
+      || containKeyword(x.driver.name, keyword)
+      || containKeyword(x.truckType, keyword)
+      || containKeyword(formatLargeNumber(x.price), keyword)
+      || containKeyword(x.dimension, keyword)
+      || containKeyword(x.parkingAddress, keyword)
+      || containKeyword(x.productionYear.toString(), keyword)
+      || containKeyword(STATUS[x.status], keyword)
+      || containKeyword(x.description, keyword)
+    ))
+
     return (
       <Layout pathname={pathname}>
         <Control
@@ -105,18 +119,8 @@ class Homepage extends Component {
           viewItem={this.viewItem}
           editItem={this.editItem}
           removeItem={this.removeItem}
-          data={data.filter(x => (
-            this.containKeyword(x.plate, keyword)
-            || this.containKeyword(x.cargoType.join(', '), keyword)
-            || this.containKeyword(x.driver, keyword)
-            || this.containKeyword(x.truckType, keyword)
-            || this.containKeyword(formatLargeNumber(x.price), keyword)
-            || this.containKeyword(x.dimension, keyword)
-            || this.containKeyword(x.parkingAddress, keyword)
-            || this.containKeyword(x.productionYear.toString(), keyword)
-            || this.containKeyword(x.status, keyword)
-            || this.containKeyword(x.description, keyword)
-          ))}
+          data={data}
+          page={page || '1'}
         />
         <TruckModal
           displayModal={displayModal}
@@ -134,6 +138,8 @@ Homepage.propTypes = {
   location: PropTypes.shape({
     pathname: PropTypes.string,
   }).isRequired,
+  match: PropTypes.shape().isRequired,
 }
+
 
 export default Homepage
