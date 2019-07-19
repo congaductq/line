@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import SuggestionBox from './SuggestionBox'
-import { containKeyword } from '~/components/utils/common'
+import { containKeyword } from '~/utils/common'
 
 const NUMBER_OF_SUGGESTION = 7
 

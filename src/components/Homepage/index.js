@@ -8,9 +8,9 @@ import '~/static/less/index.less'
 import { MODAL_TYPE, MESSAGE_TYPE, TRUCK_MODAL_MESSAGE } from '~/constants/modal'
 import DefaultTruckList, { STATUS } from '~/static/data'
 import { TRUCK_FIELDS } from '~/constants/truck'
-import { KEYS, get, set } from '../utils/localStorage'
-import { formatLargeNumber } from '../utils/textFormatter'
-import { containKeyword } from '../utils/common'
+import { KEYS, get, set } from '~/utils/localStorage'
+import { formatLargeNumber } from '~/utils/textFormatter'
+import { containKeyword } from '~/utils/common'
 
 const EMPTY_DATA = Object.values(TRUCK_FIELDS).reduce((result, item) => (
   Object.assign(result, [TRUCK_FIELDS.DRIVER, TRUCK_FIELDS.CARGO_TYPE].includes(item) ? { [item]: [] } : { [item]: '' })), {})
@@ -173,9 +173,8 @@ class Homepage extends Component {
 Homepage.propTypes = {
   location: PropTypes.shape({
     pathname: PropTypes.string,
-  }).isRequired,
-  match: PropTypes.shape().isRequired,
+  }),
+  match: PropTypes.shape(),
 }
-
 
 export default Homepage

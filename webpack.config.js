@@ -13,13 +13,6 @@ module.exports = {
       test: /\.js$/,
       exclude: /node_modules/,
       loader: 'babel-loader',
-      query: {
-        presets: ['es2017', 'react', 'stage-0'],
-      },
-    },
-    {
-      test: /\.css$/,
-      use: ['style-loader', 'css-loader'],
     },
     {
       test: /\.less$/,
@@ -40,12 +33,13 @@ module.exports = {
       ],
     },
     {
-      test: /\.(gif|jpe?g|png|ico)$/,
-      loader: 'url-loader?limit=10000',
+      loader: 'style-loader!css-loader', test: /\.css$/,
     },
     {
-      test: /\.(otf|eot|svg|ttf|woff|woff2).*$/,
-      loader: 'url-loader?limit=10000',
+      loader: 'url-loader', test: /\.(gif|jpe?g|png|ico)$/,
+    },
+    {
+      loader: 'file-loader', test: /\.(ttf|eot|svg)$/,
     },
     ],
   },
