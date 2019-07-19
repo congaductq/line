@@ -11,7 +11,7 @@ class Layout extends Component {
           <div className="tms-nav container">
             <Link to="/" className="tms-logo">TRUM</Link>
             <div className="tms-nav-bar">
-              <Link to="/" className={`tms-nav-item ${(new RegExp('^/[0-9]+$|/$')).test(pathname) ? ' active' : ''}`}>Truck List</Link>
+              <Link to="/" className={`tms-nav-item ${(new RegExp('^/page/[0-9]+$|/$')).test(pathname) ? ' active' : ''}`}>Truck List</Link>
               <Link to="/about" className={`tms-nav-item ${pathname && pathname.includes('/about') ? ' active' : ''}`}>About</Link>
             </div>
           </div>

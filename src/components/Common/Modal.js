@@ -3,6 +3,18 @@ import PropTypes from 'prop-types'
 import CloseImg from '~/static/img/close.png'
 
 class Modal extends Component {
+  // CLOSE WITH ESC BUTTON PRESSED
+
+  // componentDidMount() {
+  //   document.addEventListener('keydown', this.handleKeyDown)
+  // }
+
+  // handleKeyDown = (event) => {
+  //   if (event.keyCode === 27) {
+  //     const { onClose } = this.props
+  //     onClose()
+  //   }
+  // }
   render() {
     const {
       children, header, displayModal, onClose,

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import { TRUCK_FIELDS } from '~/constants/car'
+import { TRUCK_FIELDS } from '~/constants/truck'
 import { formatLargeNumber, highlight } from '~/components/utils/textFormatter'
 import ViewImg from '~/static/img/view.png'
 import EditImg from '~/static/img/edit.png'
@@ -99,7 +99,7 @@ class List extends Component {
                   <tr key={x.plate}>
                     <td dangerouslySetInnerHTML={{ __html: highlight(x.plate, keyword) }} />
                     <td dangerouslySetInnerHTML={{ __html: highlight(x.cargoType.length === 0 ? '' : x.cargoType.map(y => y.name).join(', '), keyword) }} />
-                    <td dangerouslySetInnerHTML={{ __html: highlight(x.driver.name, keyword) }} />
+                    <td dangerouslySetInnerHTML={{ __html: highlight((x.driver && x.driver.name) ? x.driver.name : '', keyword) }} />
                     <td dangerouslySetInnerHTML={{ __html: highlight(x.truckType, keyword) }} />
                     <td dangerouslySetInnerHTML={{ __html: highlight(formatLargeNumber(x.price), keyword) }} />
                     <td dangerouslySetInnerHTML={{ __html: highlight(x.dimension, keyword) }} />
@@ -137,17 +137,17 @@ class List extends Component {
           <nav aria-label="...">
             <ul className="pagination">
               <li className={`page-item ${page === '1' ? ' disabled' : ''}`}>
-                <Link className="page-link" to={`/${parseInt(page, 10) - 1}`}>Previous</Link>
+                <Link className="page-link" to={`/page/${parseInt(page, 10) - 1}`}>Previous</Link>
               </li>
               {
                 Array.from(Array(numberOfPage).keys()).map(x => (
                   <li key={`page_${x}`} className={`page-item${page === (x + 1).toString() ? ' active' : ''}`}>
-                    <Link className="page-link" to={`/${x + 1}`}>{x + 1}</Link>
+                    <Link className="page-link" to={`/page/${x + 1}`}>{x + 1}</Link>
                   </li>
                 ))
               }
               <li className={`page-item ${page === '2' ? ' disabled' : ''}`}>
-                <Link className="page-link" to={`/${parseInt(page, 10) + 1}`}>Next</Link>
+                <Link className="page-link" to={`/page/${parseInt(page, 10) + 1}`}>Next</Link>
               </li>
             </ul>
           </nav>

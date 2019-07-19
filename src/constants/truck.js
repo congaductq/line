@@ -1,4 +1,5 @@
 export const TRUCK_FIELDS = {
+  ID: 'id',
   PLATE: 'plate',
   CARGO_TYPE: 'cargoType',
   DRIVER: 'driver',

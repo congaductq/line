@@ -2,8 +2,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Modal from '~/components/Common/Modal'
-import { TRUCK_FIELDS } from '~/constants/car'
-import { MODAL_TYPE } from '~/constants/modal'
+import { TRUCK_FIELDS } from '~/constants/truck'
+import { MODAL_TYPE, MESSAGE_TYPE } from '~/constants/modal'
 import AutocompleteInput from '~/components/Common/AutocompleteInput'
 import {
   DefaultDrivers, DefaultCargoType, DEFAULT_DRIVER_FIELD, DEFAULT_CARGO_TYPE_FIELD,
@@ -28,16 +28,16 @@ class TruckModal extends Component {
     }
   }
 
-  onFieldChange = (field, event) => {
-    const { target: { value } } = event
+  onFieldChange = (field, value) => {
     this.setState({ [field]: value })
   }
 
   onSubmit = (event) => {
     event.preventDefault()
-    const { onClick } = this.props
+    const { onAction } = this.props
     const stateToSubmit = this.state
-    onClick(...Object.values(TRUCK_FIELDS).reduce((result, item) => (Object.assign(result, { [item]: stateToSubmit[item] || '' })), {}))
+    onAction(Object.values(TRUCK_FIELDS).reduce((result, item) => (
+      Object.assign(result, { [item]: stateToSubmit[item] })), {}))
   }
 
   render() {
@@ -45,8 +45,9 @@ class TruckModal extends Component {
       plate, cargoType, driver, truckType, price, dimension, parkingAddress, productionYear, description, status,
       driverList, cargoTypeList,
     } = this.state
-
-    const { modalType, displayModal, onClose } = this.props
+    const {
+      modalType, displayModal, onClose, modalMessage, messageType,
+    } = this.props
 
     let modalName = 'Create New Item'
     if (modalType === MODAL_TYPE.EDIT) {
@@ -61,7 +62,7 @@ class TruckModal extends Component {
         displayModal={displayModal}
         onClose={onClose}
       >
-        <form onSubmit={this.onSubmit} className="popup_modal">
+        <form onSubmit={this.onSubmit} className="popup__modal">
           <div className="row">
             <div className="col-12 col-md-6 col-lg-4">
               <div className="tms-input">
@@ -74,7 +75,7 @@ class TruckModal extends Component {
                   type="text"
                   className="form-control d-flex w-100"
                   value={plate}
-                  onChange={event => this.onFieldChange(TRUCK_FIELDS.PLATE, event)}
+                  onChange={event => this.onFieldChange(TRUCK_FIELDS.PLATE, event.target.value ? event.target.value.toUpperCase() : event.target.value)}
                   required="required"
                   pattern="^[0-9]{2}[A-Za-z]{1}-[0-9]{4,5}$"
                   disabled={disableField}
@@ -102,7 +103,7 @@ class TruckModal extends Component {
                 <input
                   type="text" className="form-control d-flex w-100"
                   value={truckType}
-                  onChange={event => this.onFieldChange(TRUCK_FIELDS.TRUCK_TYPE, event)}
+                  onChange={event => this.onFieldChange(TRUCK_FIELDS.TRUCK_TYPE, event.target.value)}
                   disabled={disableField}
                 />
               </div>
@@ -117,7 +118,7 @@ class TruckModal extends Component {
                   type="number"
                   className="form-control"
                   value={price}
-                  onChange={event => this.onFieldChange(TRUCK_FIELDS.PRICE, event)}
+                  onChange={event => this.onFieldChange(TRUCK_FIELDS.PRICE, event.target.value)}
                   required="required"
                   disabled={disableField}
                 />
@@ -129,7 +130,7 @@ class TruckModal extends Component {
                 <input
                   type="text" className="form-control d-flex w-100"
                   value={dimension}
-                  onChange={event => this.onFieldChange(TRUCK_FIELDS.DIMENSION, event)}
+                  onChange={event => this.onFieldChange(TRUCK_FIELDS.DIMENSION, event.target.value)}
                   disabled={disableField}
                 />
               </div>
@@ -141,7 +142,7 @@ class TruckModal extends Component {
                   type="number"
                   className="form-control"
                   value={productionYear}
-                  onChange={event => this.onFieldChange(TRUCK_FIELDS.PRODUCTION_YEAR, event)}
+                  onChange={event => this.onFieldChange(TRUCK_FIELDS.PRODUCTION_YEAR, event.target.value)}
                   min="1950"
                   max="2050"
                   step="1"
@@ -162,6 +163,7 @@ class TruckModal extends Component {
                   onChange={this.onFieldChange}
                   value={cargoType}
                   disabled={disableField}
+                  required
                 />
               </div>
             </div>
@@ -173,7 +175,7 @@ class TruckModal extends Component {
                   type="text"
                   className="form-control d-flex w-100"
                   value={parkingAddress}
-                  onChange={event => this.onFieldChange(TRUCK_FIELDS.PARKING_ADDRESS, event)}
+                  onChange={event => this.onFieldChange(TRUCK_FIELDS.PARKING_ADDRESS, event.target.value)}
                   maxLength="500"
                   disabled={disableField}
                 />
@@ -190,7 +192,7 @@ class TruckModal extends Component {
                   type="text"
                   className="form-control d-flex w-100"
                   value={description}
-                  onChange={event => this.onFieldChange(TRUCK_FIELDS.DESCRIPTION, event)}
+                  onChange={event => this.onFieldChange(TRUCK_FIELDS.DESCRIPTION, event.target.value)}
                   disabled={disableField}
                 />
               </div>
@@ -206,7 +208,7 @@ class TruckModal extends Component {
                     <input
                       type="radio" name="status" value="1" checked={status.toString() === '1'}
                       id="In-use" required disabled={disableField}
-                      onChange={event => this.onFieldChange(TRUCK_FIELDS.STATUS, event)}
+                      onChange={event => this.onFieldChange(TRUCK_FIELDS.STATUS, event.target.value)}
                     />
                     In-use
                   </label>
@@ -214,7 +216,7 @@ class TruckModal extends Component {
                     <input
                       type="radio" name="status" value="2" checked={status.toString() === '2'}
                       id="New" disabled={disableField}
-                      onChange={event => this.onFieldChange(TRUCK_FIELDS.STATUS, event)}
+                      onChange={event => this.onFieldChange(TRUCK_FIELDS.STATUS, event.target.value)}
                     />
                     New
                   </label>
@@ -222,7 +224,7 @@ class TruckModal extends Component {
                     <input
                       type="radio" name="status" value="3" checked={status === '3'}
                       id="Stopped" disabled={disableField}
-                      onChange={event => this.onFieldChange(TRUCK_FIELDS.STATUS.toString(), event)}
+                      onChange={event => this.onFieldChange(TRUCK_FIELDS.STATUS.toString(), event.target.value)}
                     />
                     Stopped
                   </label>
@@ -233,9 +235,12 @@ class TruckModal extends Component {
           {
             modalType !== MODAL_TYPE.VIEW
             && (
-            <div className="d-flex justify-content-center">
-              <button type="submit" className="popup__main__action" style={{ marginTop: 15, textAlign: 'center' }}>{modalType}</button>
-            </div>
+              <React.Fragment>
+                <div className={`popup__message ${messageType === MESSAGE_TYPE.SUCCESS ? 'success' : 'warning'}`}>{modalMessage}</div>
+                <div className="d-flex justify-content-center">
+                  <button type="submit" className="popup__main__action">{modalType}</button>
+                </div>
+              </React.Fragment>
             )
           }
         </form>
@@ -248,13 +253,16 @@ TruckModal.propTypes = {
   modalData: PropTypes.PropTypes.shape().isRequired,
   modalType: PropTypes.string,
   displayModal: PropTypes.bool,
-  onClick: PropTypes.func,
+  onAction: PropTypes.func,
   onClose: PropTypes.func,
+  modalMessage: PropTypes.string,
+  messageType: PropTypes.string,
 }
 
 TruckModal.defaultProps = {
   modalType: MODAL_TYPE.CREATE,
   displayModal: false,
+  messageType: MESSAGE_TYPE.SUCCESS,
 }
 
 export default TruckModal

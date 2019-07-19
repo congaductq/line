@@ -12,9 +12,16 @@ class AutocompleteInput extends Component {
     const { multiple, value } = this.props
 
     this.state = {
-      tags: value ? (multiple ? value : [value]) : [],
+      tags: !value || value.length === 0 ? [] : (multiple ? value : [value]),
       keyword: '',
       focus: false,
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { value, multiple } = this.props
+    if (nextProps.value !== value) {
+      this.setState({ tags: !nextProps.value || nextProps.value.length === 0 ? [] : (multiple ? nextProps.value : [nextProps.value]) })
     }
   }
 
@@ -74,17 +81,21 @@ class AutocompleteInput extends Component {
     const { tags } = this.state
     const { target: { value } } = event
     if (event.key === 'Enter') {
-      const { mainSuggestionField, list: listProps, multiple } = this.props
+      event.preventDefault()
+      const {
+        mainSuggestionField, list: listProps, multiple, onChange, field,
+      } = this.props
       const list = listProps
-        .filter(x => !tags.includes(x[mainSuggestionField]))
+        .filter(x => tags.findIndex(y => y.id === x.id) === -1)
         .filter(x => containKeyword(x[mainSuggestionField], value))
       if (list.length > 0) {
-        this.setState({ tags: multiple ? [...tags, list[0][mainSuggestionField]] : [list[0][mainSuggestionField]], keyword: '', focus: multiple })
+        const newTags = multiple ? [...tags, list[0]] : [list[0]]
+        onChange(field, multiple ? newTags : (newTags[0]))
+        this.setState({ tags: newTags, keyword: '', focus: multiple })
       }
       if (multiple && document.getElementById(`tag-input-${mainSuggestionField}`)) {
         document.getElementById(`tag-input-${mainSuggestionField}`).focus()
       }
-      event.preventDefault()
     } else if (event.key === 'Backspace' && !value) {
       this.removeTag(tags.length - 1)
     }
@@ -92,35 +103,37 @@ class AutocompleteInput extends Component {
 
   onSelect = (item) => {
     const { tags } = this.state
-    const { mainSuggestionField, multiple, field } = this.props
-    this.setState({ tags: multiple ? [...tags, item[mainSuggestionField]] : [item[mainSuggestionField]], keyword: '', focus: multiple })
+    const { multiple, field, onChange } = this.props
+    const newTags = multiple ? [...tags, item] : [item]
+    onChange(field, multiple ? newTags : (newTags[0]))
+    this.setState({ tags: newTags, keyword: '', focus: multiple })
     if (multiple && document.getElementById(`tag-input-${field}`)) {
       document.getElementById(`tag-input-${field}`).focus()
     }
   }
 
-  updateKeyword = (event) => {
-    const { target: { value } } = event
+  updateKeyword = (value) => {
     this.setState({ keyword: value })
   }
 
   render() {
-    const { tags, keyword, focus } = this.state
     const {
-      list: listProps, mainSuggestionField, field, value, multiple,
+      tags, keyword, focus,
+    } = this.state
+    const {
+      list: listProps, mainSuggestionField, field, value, multiple, required,
     } = this.props
 
     const list = listProps
-      .filter(x => !tags.includes(x[mainSuggestionField]))
+      .filter(x => tags.findIndex(y => y.id === x.id) === -1)
       .filter(x => containKeyword(x[mainSuggestionField], keyword))
       .slice(0, NUMBER_OF_SUGGESTION)
-
     return (
       <div className="input-tag" ref={(ref) => { this.wrapper = ref }}>
         <ul className="input-tag__tags">
           { tags.map((tag, i) => (
-            <li key={tag}>
-              {tag}
+            <li key={tag[mainSuggestionField]}>
+              {tag[mainSuggestionField]}
               <button type="button" onClick={() => this.removeTag(i)}>×</button>
             </li>
           ))}
@@ -133,8 +146,9 @@ class AutocompleteInput extends Component {
                   type="text"
                   onKeyDown={this.inputKeyDown}
                   value={keyword}
-                  onChange={event => this.updateKeyword(event)}
+                  onChange={event => this.updateKeyword(event.target.value)}
                   onClick={this.toggleSearchBox}
+                  required={required && tags.length === 0}
                 />
                 <div className="suggestion">
                   {
@@ -164,14 +178,17 @@ AutocompleteInput.propTypes = {
   field: PropTypes.string,
   mainSuggestionField: PropTypes.string,
   value: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.arrayOf(PropTypes.string),
+    PropTypes.shape,
+    PropTypes.arrayOf(PropTypes.shape),
   ]),
   multiple: PropTypes.bool,
+  required: PropTypes.bool,
+  onChange: PropTypes.func,
 }
 
 AutocompleteInput.defaultProps = {
   multiple: true,
+  required: false,
 }
 
 export default AutocompleteInput

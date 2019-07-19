@@ -107,6 +107,8 @@
   padding: 4px 12px;
 }
 .popup__main__action {
+  margin-top: 10px;
+  text-align: center;
   padding: 6px 25px;
   background: @color-list;
   color: #fff;
@@ -129,9 +131,21 @@
   width: 16px;
   height: 16px;
 }
-.popup_modal {
+.popup__modal {
   padding: 30px;
   width: 100%;
+}
+.popup__message {
+  display: flex;
+  justify-content: center;
+  height: 20px;
+  line-height: 20px;
+  &.warning {
+    color: @color-warning;
+  }
+  &.success {
+    color: @color-success;
+  }
 }
 
 // TAG
