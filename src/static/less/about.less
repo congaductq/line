@@ -1,3 +1,6 @@
+@import 'common/color.less';
+@import 'common/layout.less';
+
 .about-container {
   display: flex;
   justify-content: center;
@@ -8,13 +11,15 @@
   flex-direction: column;
   border-radius: 5px;
   margin: 15px 0;
+  padding: 30px;
+  .card-view();
   width: 75%;
 }
 .about-title {
   text-align: center;
 }
 .about-sub-title {
-  color: #555;
+  color: @color-grey;
   text-align: center;
 }
 .about-description {

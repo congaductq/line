@@ -143,8 +143,8 @@ class TruckModal extends Component {
                   className="form-control"
                   value={productionYear}
                   onChange={event => this.onFieldChange(TRUCK_FIELDS.PRODUCTION_YEAR, event.target.value)}
-                  min="1950"
-                  max="2050"
+                  min="1980"
+                  max="2030"
                   step="1"
                   disabled={disableField}
                 />

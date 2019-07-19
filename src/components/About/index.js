@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Layout from '../Layout'
 import '~/static/less/about.less'
+import { DRIVER_MIN_BORN_YEAR, DRIVER_MAX_BORN_YEAR } from '~/constants/driver'
 
 class About extends Component {
   render() {
@@ -14,19 +15,31 @@ class About extends Component {
             <h5 className="about-sub-title">Truck Management System</h5>
             <div className="about-description">
               <p>
-                Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                Lorem Ipsum has been the industry standard dummy text ever since the 1500s,
-                when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+                Truck Management System is a transportation business management software.
+                TRUM helps you to easily manage your Truck list.
               </p>
+              <br />
               <p>
-                Contrary to popular belief, Lorem Ipsum is not simply random text.
-                It has roots in a piece of classical Latin literature from 45 BC,
-                making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia.
+                The data&apos; constraints of the system:
               </p>
-              <p>
-                There are many variations of passages of Lorem Ipsum available,
-                but the majority have suffered alteration in some form.
-              </p>
+              <ul>
+                <li>
+                  Truck Plate must be Vietnamese car&apos;s plate format (without dot).
+                  &nbsp;
+                  <i>e.g: 22B-11425, 30E-4215.</i>
+                </li>
+                <li>One driver can handle multiple trucks, but one truck is only belongs to one driver (or not assigned) at the same time.</li>
+                <li>Production year range is from 1980 to 2030.</li>
+                <li>Cargo type must be less than or equal 10 types.</li>
+                <li>Address must be less than or equal 500 characters.</li>
+                <li>Description must be less than or equal 500 characters.</li>
+                <li>Cargo type must be less than or equal 30 characters.</li>
+                <li>Driver&apos;s name must be less than or equal 50 characters.</li>
+                <li>
+                  Driver&apos;s year of born must be between
+                  {` ${DRIVER_MIN_BORN_YEAR} and ${DRIVER_MAX_BORN_YEAR}.`}
+                </li>
+              </ul>
             </div>
           </div>
         </div>
