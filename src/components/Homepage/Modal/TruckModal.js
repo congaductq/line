@@ -9,7 +9,7 @@ import {
   DefaultDrivers, DefaultCargoType, DEFAULT_DRIVER_FIELD, DEFAULT_CARGO_TYPE_FIELD,
 } from '~/static/data'
 
-const requireSymbol = <span style={{ color: 'red', marginLeft: 3 }}>*</span>
+const requireSymbol = <span style={{ color: 'red', marginLeft: 3, marginRight: 6 }}>*</span>
 
 class TruckModal extends Component {
   constructor(props) {
@@ -155,6 +155,7 @@ class TruckModal extends Component {
                 <div className="tms-input__label">
                   Cargo Type
                   {requireSymbol}
+                  {` (${cargoType.length}/10)`}
                 </div>
                 <AutocompleteInput
                   field={TRUCK_FIELDS.CARGO_TYPE}
@@ -164,12 +165,16 @@ class TruckModal extends Component {
                   value={cargoType}
                   disabled={disableField}
                   required
+                  maxLength={10}
                 />
               </div>
             </div>
             <div className="col-12">
               <div className="tms-input">
-                <div className="tms-input__label">Parking Address</div>
+                <div className="tms-input__label">
+                  Parking Address
+                  {` (${parkingAddress.length}/500)`}
+                </div>
                 <textarea
                   rows="2"
                   type="text"
@@ -194,6 +199,7 @@ class TruckModal extends Component {
                   value={description}
                   onChange={event => this.onFieldChange(TRUCK_FIELDS.DESCRIPTION, event.target.value)}
                   disabled={disableField}
+                  maxLength="200"
                 />
               </div>
             </div>

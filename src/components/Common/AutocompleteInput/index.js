@@ -121,7 +121,7 @@ class AutocompleteInput extends Component {
       tags, keyword, focus,
     } = this.state
     const {
-      list: listProps, mainSuggestionField, field, value, multiple, required,
+      list: listProps, mainSuggestionField, field, value, multiple, required, maxLength, disabled,
     } = this.props
 
     const list = listProps
@@ -129,16 +129,16 @@ class AutocompleteInput extends Component {
       .filter(x => containKeyword(x[mainSuggestionField], keyword))
       .slice(0, NUMBER_OF_SUGGESTION)
     return (
-      <div className="input-tag" ref={(ref) => { this.wrapper = ref }}>
+      <div className={`input-tag${disabled ? ' disabled' : ''}`} ref={(ref) => { this.wrapper = ref }}>
         <ul className="input-tag__tags">
           { tags.map((tag, i) => (
             <li key={tag[mainSuggestionField]}>
               {tag[mainSuggestionField]}
-              <button type="button" onClick={() => this.removeTag(i)}>×</button>
+              {!disabled && <button type="button" onClick={() => this.removeTag(i)}>×</button>}
             </li>
           ))}
           {
-            (tags.length === 0 || multiple) && (
+            (!disabled && (tags.length === 0 || (multiple && tags.length < maxLength))) && (
               <li className="input-tag__tags__input d-flex flex-column">
                 <input
                   id={`tag-input-${field}`}
@@ -178,17 +178,21 @@ AutocompleteInput.propTypes = {
   field: PropTypes.string,
   mainSuggestionField: PropTypes.string,
   value: PropTypes.oneOfType([
-    PropTypes.shape,
-    PropTypes.arrayOf(PropTypes.shape),
+    PropTypes.shape(),
+    PropTypes.arrayOf(PropTypes.shape()),
   ]),
   multiple: PropTypes.bool,
   required: PropTypes.bool,
   onChange: PropTypes.func,
+  maxLength: PropTypes.number,
+  disabled: PropTypes.bool,
 }
 
 AutocompleteInput.defaultProps = {
   multiple: true,
   required: false,
+  maxLength: 20,
+  disabled: false,
 }
 
 export default AutocompleteInput
