@@ -50,5 +50,9 @@ module.exports = {
     new HWP(
       { template: path.join(__dirname, '/src/index.html') },
     ),
+    new HTMLWebpackPlugin({
+      template: path.join(__dirname, '/src/index.html'),
+      favicon: path.join(__dirname, '/src/favicon.ico'),
+    }),
   ],
 }
