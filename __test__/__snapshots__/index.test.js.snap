@@ -24,6 +24,18 @@ exports[`With React Testing Library Snapshot Should match Snapshot 1`] = `
           </a>
           <a
             class="tms-nav-item "
+            href="/user"
+          >
+            User
+          </a>
+          <a
+            class="tms-nav-item "
+            href="/cargo-type"
+          >
+            Cargo Type
+          </a>
+          <a
+            class="tms-nav-item "
             href="/about"
           >
             About
@@ -48,7 +60,7 @@ exports[`With React Testing Library Snapshot Should match Snapshot 1`] = `
           autocomplete="off"
           class="form-control search-form"
           name="keyword"
-          placeholder="Search plate, driver..."
+          placeholder="Search name, address..."
           value=""
         />
       </div>
@@ -5054,10 +5066,12 @@ exports[`With React Testing Library Snapshot Should match Snapshot 1`] = `
                     </label>
                     <label
                       for="New"
+                      style="white-space: nowrap;"
                     >
                       <input
                         id="New"
                         name="status"
+                        required=""
                         type="radio"
                         value="2"
                       />
@@ -5065,10 +5079,12 @@ exports[`With React Testing Library Snapshot Should match Snapshot 1`] = `
                     </label>
                     <label
                       for="Stopped"
+                      style="white-space: nowrap;"
                     >
                       <input
                         id="Stopped"
                         name="status"
+                        required=""
                         type="radio"
                         value="3"
                       />

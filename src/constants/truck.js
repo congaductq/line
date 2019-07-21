@@ -11,3 +11,13 @@ export const TRUCK_FIELDS = {
   STATUS: 'status',
   DESCRIPTION: 'description',
 }
+
+export const TRUCK_STATUS = {
+  1: 'In-use',
+  2: 'New',
+  3: 'Stopped',
+}
+
+export const DEFAULT_TRUCK_SORT_FIELD = TRUCK_FIELDS.PLATE
+
+export const DEFAULT_TRUCK_PAGE_SIZE = 10

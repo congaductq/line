@@ -24,6 +24,8 @@ export const get = (key) => {
 
 export const KEYS = {
   TRUCK_DATA: 'TRUCK_DATA',
+  DRIVER_DATA: 'DRIVER_DATA',
+  CARGO_TYPE_DATA: 'CARGO_TYPE_DATA',
 }
 
 export default {

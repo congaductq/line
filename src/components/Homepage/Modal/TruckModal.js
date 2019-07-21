@@ -2,12 +2,13 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Modal from '~/components/Common/Modal'
-import { TRUCK_FIELDS } from '~/constants/truck'
+import { TRUCK_FIELDS, TRUCK_STATUS } from '~/constants/truck'
 import { MODAL_TYPE, MESSAGE_TYPE } from '~/constants/modal'
 import AutocompleteInput from '~/components/Common/AutocompleteInput'
-import {
-  DefaultDrivers, DefaultCargoType, DEFAULT_DRIVER_FIELD, DEFAULT_CARGO_TYPE_FIELD,
-} from '~/static/data'
+import { DefaultDriverList, DefaultCargoTypeList } from '~/constants/default'
+import { DEFAULT_DRIVER_FIELD, DRIVER_ADDITIONAL_FIELDS, DRIVER_FIELDS } from '~/constants/driver'
+import { DEFAULT_CARGO_TYPE_FIELD, CARGO_TYPE_ADDITIONAL_FIELDS, CARGO_TYPE_FIELDS } from '~/constants/cargo-type'
+import { get, KEYS } from '~/utils/localStorage'
 
 const requireSymbol = <span style={{ color: 'red', marginLeft: 3, marginRight: 6 }}>*</span>
 
@@ -16,8 +17,8 @@ class TruckModal extends Component {
     super(props)
     this.state = {
       ...Object.values(TRUCK_FIELDS).reduce((result, item) => (Object.assign(result, { [item]: props.modalData[item] || '' })), {}),
-      driverList: DefaultDrivers,
-      cargoTypeList: DefaultCargoType,
+      driverList: (get(KEYS.DRIVER_DATA) || DefaultDriverList).filter(x => x[DRIVER_FIELDS.STATUS] === 1),
+      cargoTypeList: (get(KEYS.CARGO_TYPE_DATA) || DefaultCargoTypeList).filter(x => x[CARGO_TYPE_FIELDS.STATUS] === 1),
     }
   }
 
@@ -41,10 +42,7 @@ class TruckModal extends Component {
   }
 
   render() {
-    const {
-      plate, cargoType, driver, truckType, price, dimension, parkingAddress, productionYear, description, status,
-      driverList, cargoTypeList,
-    } = this.state
+    const { driverList, cargoTypeList, ...state } = this.state
     const {
       modalType, displayModal, onClose, modalMessage, messageType,
     } = this.props
@@ -74,7 +72,7 @@ class TruckModal extends Component {
                   id="plate"
                   type="text"
                   className="form-control d-flex w-100"
-                  value={plate}
+                  value={state[TRUCK_FIELDS.PLATE]}
                   onChange={event => this.onFieldChange(TRUCK_FIELDS.PLATE, event.target.value ? event.target.value.toUpperCase() : event.target.value)}
                   required="required"
                   pattern="^[0-9]{2}[A-Za-z]{1}-[0-9]{4,5}$"
@@ -90,8 +88,9 @@ class TruckModal extends Component {
                   field={TRUCK_FIELDS.DRIVER}
                   list={driverList}
                   mainSuggestionField={DEFAULT_DRIVER_FIELD}
+                  additionalFields={DRIVER_ADDITIONAL_FIELDS}
                   onChange={this.onFieldChange}
-                  value={driver}
+                  value={state[TRUCK_FIELDS.DRIVER]}
                   disabled={disableField}
                   multiple={false}
                 />
@@ -102,7 +101,7 @@ class TruckModal extends Component {
                 <div className="tms-input__label">Truck Type</div>
                 <input
                   type="text" className="form-control d-flex w-100"
-                  value={truckType}
+                  value={state[TRUCK_FIELDS.TRUCK_TYPE]}
                   onChange={event => this.onFieldChange(TRUCK_FIELDS.TRUCK_TYPE, event.target.value)}
                   disabled={disableField}
                 />
@@ -117,7 +116,7 @@ class TruckModal extends Component {
                 <input
                   type="number"
                   className="form-control"
-                  value={price}
+                  value={state[TRUCK_FIELDS.PRICE]}
                   onChange={event => this.onFieldChange(TRUCK_FIELDS.PRICE, event.target.value)}
                   required="required"
                   disabled={disableField}
@@ -129,7 +128,7 @@ class TruckModal extends Component {
                 <div className="tms-input__label">Dimension</div>
                 <input
                   type="text" className="form-control d-flex w-100"
-                  value={dimension}
+                  value={state[TRUCK_FIELDS.DIMENSION]}
                   onChange={event => this.onFieldChange(TRUCK_FIELDS.DIMENSION, event.target.value)}
                   disabled={disableField}
                 />
@@ -141,7 +140,7 @@ class TruckModal extends Component {
                 <input
                   type="number"
                   className="form-control"
-                  value={productionYear}
+                  value={state[TRUCK_FIELDS.PRODUCTION_YEAR]}
                   onChange={event => this.onFieldChange(TRUCK_FIELDS.PRODUCTION_YEAR, event.target.value)}
                   min="1980"
                   max="2030"
@@ -155,14 +154,15 @@ class TruckModal extends Component {
                 <div className="tms-input__label">
                   Cargo Type
                   {requireSymbol}
-                  {` (${cargoType.length}/10)`}
+                  {modalType !== MODAL_TYPE.VIEW && ` (${state[TRUCK_FIELDS.CARGO_TYPE].length}/10)`}
                 </div>
                 <AutocompleteInput
                   field={TRUCK_FIELDS.CARGO_TYPE}
                   list={cargoTypeList}
                   mainSuggestionField={DEFAULT_CARGO_TYPE_FIELD}
+                  additionalFields={CARGO_TYPE_ADDITIONAL_FIELDS}
                   onChange={this.onFieldChange}
-                  value={cargoType}
+                  value={state[TRUCK_FIELDS.CARGO_TYPE]}
                   disabled={disableField}
                   required
                   maxLength={10}
@@ -173,13 +173,13 @@ class TruckModal extends Component {
               <div className="tms-input">
                 <div className="tms-input__label">
                   Parking Address
-                  {` (${parkingAddress.length}/500)`}
+                  {modalType !== MODAL_TYPE.VIEW && ` (${state[TRUCK_FIELDS.PARKING_ADDRESS].length}/500)`}
                 </div>
                 <textarea
                   rows="2"
                   type="text"
                   className="form-control d-flex w-100"
-                  value={parkingAddress}
+                  value={state[TRUCK_FIELDS.PARKING_ADDRESS]}
                   onChange={event => this.onFieldChange(TRUCK_FIELDS.PARKING_ADDRESS, event.target.value)}
                   maxLength="500"
                   disabled={disableField}
@@ -190,13 +190,13 @@ class TruckModal extends Component {
               <div className="tms-input">
                 <div className="tms-input__label">
                   Description
-                  {` (${description.length}/200)`}
+                  {modalType !== MODAL_TYPE.VIEW && ` (${state[TRUCK_FIELDS.DESCRIPTION].length}/200)`}
                 </div>
                 <textarea
                   rows="2"
                   type="text"
                   className="form-control d-flex w-100"
-                  value={description}
+                  value={state[TRUCK_FIELDS.DESCRIPTION]}
                   onChange={event => this.onFieldChange(TRUCK_FIELDS.DESCRIPTION, event.target.value)}
                   disabled={disableField}
                   maxLength="200"
@@ -210,30 +210,18 @@ class TruckModal extends Component {
                   {requireSymbol}
                 </div>
                 <div className="d-flex flex-wrap">
-                  <label htmlFor="In-use" style={{ whiteSpace: 'nowrap' }}>
-                    <input
-                      type="radio" name="status" value="1" checked={status.toString() === '1'}
-                      id="In-use" required disabled={disableField}
-                      onChange={event => this.onFieldChange(TRUCK_FIELDS.STATUS, event.target.value)}
-                    />
-                    In-use
-                  </label>
-                  <label htmlFor="New">
-                    <input
-                      type="radio" name="status" value="2" checked={status.toString() === '2'}
-                      id="New" disabled={disableField}
-                      onChange={event => this.onFieldChange(TRUCK_FIELDS.STATUS, event.target.value)}
-                    />
-                    New
-                  </label>
-                  <label htmlFor="Stopped">
-                    <input
-                      type="radio" name="status" value="3" checked={status === '3'}
-                      id="Stopped" disabled={disableField}
-                      onChange={event => this.onFieldChange(TRUCK_FIELDS.STATUS.toString(), event.target.value)}
-                    />
-                    Stopped
-                  </label>
+                  {
+                    Object.keys(TRUCK_STATUS).map(x => (
+                      <label htmlFor={TRUCK_STATUS[x]} style={{ whiteSpace: 'nowrap' }} key={`STATUS_${TRUCK_STATUS[x]}`}>
+                        <input
+                          type="radio" name="status" value={x.toString()} checked={state[TRUCK_FIELDS.STATUS].toString() === x.toString()}
+                          id={TRUCK_STATUS[x]} required disabled={disableField}
+                          onChange={event => this.onFieldChange(TRUCK_FIELDS.STATUS, event.target.value)}
+                        />
+                        { TRUCK_STATUS[x] }
+                      </label>
+                    ))
+                  }
                 </div>
               </div>
             </div>

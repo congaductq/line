@@ -121,7 +121,7 @@ class AutocompleteInput extends Component {
       tags, keyword, focus,
     } = this.state
     const {
-      list: listProps, mainSuggestionField, field, value, multiple, required, maxLength, disabled,
+      list: listProps, mainSuggestionField, additionalFields, field, value, multiple, required, maxLength, disabled,
     } = this.props
 
     const list = listProps
@@ -160,6 +160,7 @@ class AutocompleteInput extends Component {
                       value={value}
                       onSelect={this.onSelect}
                       multiple={multiple}
+                      additionalFields={additionalFields}
                     />
                     )
                   }
@@ -177,7 +178,9 @@ AutocompleteInput.propTypes = {
   list: PropTypes.arrayOf(PropTypes.object),
   field: PropTypes.string,
   mainSuggestionField: PropTypes.string,
+  additionalFields: PropTypes.arrayOf(PropTypes.string),
   value: PropTypes.oneOfType([
+    PropTypes.string,
     PropTypes.shape(),
     PropTypes.arrayOf(PropTypes.shape()),
   ]),
@@ -193,6 +196,7 @@ AutocompleteInput.defaultProps = {
   required: false,
   maxLength: 20,
   disabled: false,
+  additionalFields: [],
 }
 
 export default AutocompleteInput

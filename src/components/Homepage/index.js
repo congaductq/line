@@ -5,15 +5,24 @@ import Control from './Control'
 import List from './List'
 import TruckModal from './Modal/TruckModal'
 import '~/static/less/index.less'
-import { MODAL_TYPE, MESSAGE_TYPE, TRUCK_MODAL_MESSAGE } from '~/constants/modal'
-import DefaultTruckList, { STATUS } from '~/static/data'
-import { TRUCK_FIELDS } from '~/constants/truck'
-import { KEYS, get, set } from '~/utils/localStorage'
+import {
+  MODAL_TYPE, MESSAGE_TYPE, TRUCK_MODAL_MESSAGE, DRIVER_MODAL_MESSAGE,
+} from '~/constants/modal'
+import {
+  DefaultTruckList, DefaultDriverList, createTruck, editTruck, editDriver, removeTruck,
+} from '~/constants/default'
+import { TRUCK_FIELDS, TRUCK_STATUS } from '~/constants/truck'
+import { KEYS, get } from '~/utils/localStorage'
 import { formatLargeNumber } from '~/utils/textFormatter'
 import { containKeyword } from '~/utils/common'
+import DriverModal from '../Driver/Modal/DriverModal'
+import { DRIVER_FIELDS } from '~/constants/driver'
 
 const EMPTY_DATA = Object.values(TRUCK_FIELDS).reduce((result, item) => (
-  Object.assign(result, [TRUCK_FIELDS.DRIVER, TRUCK_FIELDS.CARGO_TYPE].includes(item) ? { [item]: [] } : { [item]: '' })), {})
+  Object.assign(result, [TRUCK_FIELDS.CARGO_TYPE].includes(item) ? { [item]: [] } : { [item]: '' })), {})
+
+const EMPTY_DATA_DRIVER = Object.values(DRIVER_FIELDS).reduce((result, item) => (
+  Object.assign(result, { [item]: '' })), {})
 
 class Homepage extends Component {
   constructor(props) {
@@ -21,12 +30,20 @@ class Homepage extends Component {
 
     this.state = {
       data: get(KEYS.TRUCK_DATA) || [...DefaultTruckList],
+      dataDriver: get(KEYS.DRIVER_DATA) || [...DefaultDriverList],
       keyword: '',
+      // TRUCK
       displayModal: false,
       modalType: MODAL_TYPE.CREATE,
       modalData: { ...EMPTY_DATA },
       messageType: MESSAGE_TYPE.SUCCESS,
-      modalMessage: '',
+      modalMessage: TRUCK_MODAL_MESSAGE.EMPTY,
+      // DRIVER
+      displayModalDriver: false,
+      modalDataDriver: { ...EMPTY_DATA_DRIVER },
+      modalTypeDriver: MODAL_TYPE.VIEW_DRIVER,
+      messageTypeDriver: MESSAGE_TYPE.SUCCESS,
+      modalMessageDriver: DRIVER_MODAL_MESSAGE.EMPTY,
     }
   }
 
@@ -45,40 +62,30 @@ class Homepage extends Component {
     this.updateModalType(MODAL_TYPE.CREATE)
   }
 
-  convertItemToSubmit = (data) => {
-    const { data: dataProps } = this.state
-    const nextId = dataProps.reduce((result, item) => Math.max(result, item.id), 0) + 1
-    return (Object.assign(data, { id: nextId }))
-  }
-
   closeModal = () => {
     setTimeout(() => {
       this.setState({ modalMessage: TRUCK_MODAL_MESSAGE.EMPTY, displayModal: false })
-    }, 1100)
+    }, 800)
   }
 
   createItemDone = (item) => {
     const { data } = this.state
-    if (data.findIndex(x => x.plate === item.plate) !== -1) {
+    if (data.findIndex(x => x[TRUCK_FIELDS.PLATE] === item[TRUCK_FIELDS.PLATE]) !== -1) {
       this.setState({ messageType: MESSAGE_TYPE.WARNING, modalMessage: TRUCK_MODAL_MESSAGE.PLATE_EXISTED })
     } else {
-      const newData = [...data, this.convertItemToSubmit(item)]
-      this.setState({ data: newData, messageType: MESSAGE_TYPE.SUCCESS, modalMessage: TRUCK_MODAL_MESSAGE.CREATE_SUCCESS })
-      set(KEYS.TRUCK_DATA, newData)
+      this.setState({ data: createTruck(data, item), messageType: MESSAGE_TYPE.SUCCESS, modalMessage: TRUCK_MODAL_MESSAGE.CREATE_SUCCESS })
       this.closeModal()
     }
   }
 
   editItemDone = (item) => {
     const { data } = this.state
-    if (data.filter(x => x.id !== item.id).findIndex(x => x.plate === item.plate) !== -1) {
+    if (data.filter(x => x[TRUCK_FIELDS.ID] !== item[TRUCK_FIELDS.ID]).findIndex(x => x[TRUCK_FIELDS.PLATE] === item[TRUCK_FIELDS.PLATE]) !== -1) {
       this.setState({ messageType: MESSAGE_TYPE.WARNING, modalMessage: TRUCK_MODAL_MESSAGE.PLATE_EXISTED })
     } else {
-      const index = data.findIndex(x => x.id === item.id)
+      const index = data.findIndex(x => x[TRUCK_FIELDS.ID] === item[TRUCK_FIELDS.ID])
       if (index !== -1) {
-        const newData = [...data.slice(0, index), this.convertItemToSubmit(item), ...data.slice(index + 1, data.length + 1)]
-        this.setState({ data: newData, messageType: MESSAGE_TYPE.SUCCESS, modalMessage: TRUCK_MODAL_MESSAGE.EDIT_SUCCESS })
-        set(KEYS.TRUCK_DATA, newData)
+        this.setState({ data: editTruck(data, item, index), messageType: MESSAGE_TYPE.SUCCESS, modalMessage: TRUCK_MODAL_MESSAGE.EDIT_SUCCESS })
         this.closeModal()
       }
     }
@@ -97,11 +104,9 @@ class Homepage extends Component {
   }
 
   removeItem = (item) => {
-    const { data } = this.state
     /* eslint-disable no-alert */
     if (window.confirm('Do you really want to remove this item?')) {
-      set(KEYS.TRUCK_DATA, data.filter(x => x.id !== item.id))
-      this.setState({ data: data.filter(x => x.id !== item.id) })
+      this.setState({ data: removeTruck(item) })
     }
   }
 
@@ -113,6 +118,12 @@ class Homepage extends Component {
     this.setState({ displayModal })
   }
 
+  // DRIVER FUNCTIONS
+
+  updateModalDisplayDriver = (displayModalDriver) => {
+    this.setState({ displayModalDriver })
+  }
+
   updateModalData = (modalData) => {
     this.setState({ modalData })
   }
@@ -121,24 +132,55 @@ class Homepage extends Component {
     this.setState({ modalType })
   }
 
+  displayDriver = (id) => {
+    const modalDataDriver = DefaultDriverList.find(x => x[DRIVER_FIELDS.ID] === id)
+    if (modalDataDriver) {
+      this.setState({ modalDataDriver, displayModalDriver: true })
+    }
+  }
+
+  updateModalTypeDriver = (modalTypeDriver) => {
+    this.setState({ modalTypeDriver })
+  }
+
+  editItemDoneDriver = (item) => {
+    const { dataDriver } = this.state
+    const index = dataDriver.findIndex(x => x[DRIVER_FIELDS.ID] === item[DRIVER_FIELDS.ID])
+    if (index !== -1) {
+      const { data: newData, dataTruck } = editDriver(dataDriver, item, index)
+      this.setState({
+        dataDriver: newData, data: dataTruck, messageTypeDriver: MESSAGE_TYPE.SUCCESS, modalMessageDriver: DRIVER_MODAL_MESSAGE.EDIT_SUCCESS,
+      })
+      this.closeModalDriver()
+    }
+  }
+
+  closeModalDriver = () => {
+    setTimeout(() => {
+      this.setState({ modalMessageDriver: DRIVER_MODAL_MESSAGE.EMPTY, displayModalDriver: false, modalTypeDriver: MODAL_TYPE.VIEW_DRIVER })
+    }, 800)
+  }
+
   render() {
     const { location: { pathname }, match: { params: { page } } } = this.props
+
     const {
       keyword, displayModal, modalType, modalData, data: dataState, modalMessage, messageType,
+      displayModalDriver, modalDataDriver, modalTypeDriver, messageTypeDriver, modalMessageDriver,
     } = this.state
 
     // ASSUME FILTER DATA
     const data = dataState.filter(x => (
-      containKeyword(x.plate, keyword)
-      || containKeyword(x.cargoType.map(y => y.name).join(', '), keyword)
-      || containKeyword((x.driver && x.driver.name) ? x.driver.name : '', keyword)
-      || containKeyword(x.truckType, keyword)
-      || containKeyword(formatLargeNumber(x.price), keyword)
-      || containKeyword(x.dimension, keyword)
-      || containKeyword(x.parkingAddress, keyword)
-      || containKeyword(x.productionYear.toString(), keyword)
-      || containKeyword(STATUS[x.status], keyword)
-      || containKeyword(x.description, keyword)
+      containKeyword(x[TRUCK_FIELDS.PLATE], keyword)
+      || containKeyword(x[TRUCK_FIELDS.CARGO_TYPE].map(y => y.name).join(', '), keyword)
+      || containKeyword((x[TRUCK_FIELDS.DRIVER] && x[TRUCK_FIELDS.DRIVER].name) ? x[TRUCK_FIELDS.DRIVER].name : '', keyword)
+      || containKeyword(x[TRUCK_FIELDS.TRUCK_TYPE], keyword)
+      || containKeyword(formatLargeNumber(x[TRUCK_FIELDS.PRICE]), keyword)
+      || containKeyword(x[TRUCK_FIELDS.DIMENSION], keyword)
+      || containKeyword(x[TRUCK_FIELDS.PARKING_ADDRESS], keyword)
+      || containKeyword(x[TRUCK_FIELDS.PRODUCTION_YEAR].toString(), keyword)
+      || containKeyword(TRUCK_STATUS[x[TRUCK_FIELDS.STATUS]], keyword)
+      || containKeyword(x[TRUCK_FIELDS.DESCRIPTION], keyword)
     ))
 
     return (
@@ -155,6 +197,7 @@ class Homepage extends Component {
           removeItem={this.removeItem}
           data={data}
           page={page || '1'}
+          displayDriver={this.displayDriver}
         />
         <TruckModal
           displayModal={displayModal}
@@ -164,6 +207,16 @@ class Homepage extends Component {
           onClose={() => this.updateModalDisplay(false)}
           messageType={messageType}
           modalMessage={modalMessage}
+        />
+        <DriverModal
+          displayModal={displayModalDriver}
+          modalType={modalTypeDriver}
+          onAction={this.editItemDoneDriver}
+          modalData={modalDataDriver}
+          onClose={() => this.updateModalDisplayDriver(false)}
+          updateModalType={this.updateModalTypeDriver}
+          messageType={messageTypeDriver}
+          modalMessage={modalMessageDriver}
         />
       </Layout>
     )

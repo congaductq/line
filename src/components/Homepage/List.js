@@ -1,27 +1,28 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import { TRUCK_FIELDS } from '~/constants/truck'
+import {
+  TRUCK_FIELDS, TRUCK_STATUS, DEFAULT_TRUCK_SORT_FIELD, DEFAULT_TRUCK_PAGE_SIZE,
+} from '~/constants/truck'
 import { formatLargeNumber, highlight } from '~/utils/textFormatter'
 import ViewImg from '~/static/img/view.png'
 import EditImg from '~/static/img/edit.png'
 import RemoveImg from '~/static/img/remove.png'
-import { STATUS } from '~/static/data'
-
-const DEFAULT_SIZE = 10
+import Pagination from '../Common/Pagination'
+import { DRIVER_FIELDS } from '~/constants/driver'
+import { getSortClass } from '~/utils/common'
 
 const sortData = (data, order, desc, page, size) => (data.sort((a, b) => {
   let aValue = a[order]
   let bValue = b[order]
   if (order === TRUCK_FIELDS.DRIVER) {
-    aValue = a.driver.name
-    bValue = b.driver.name
+    aValue = a[TRUCK_FIELDS.DRIVER].name
+    bValue = b[TRUCK_FIELDS.DRIVER].name
   } else if (order === TRUCK_FIELDS.CARGO_TYPE) {
-    aValue = a.cargoType.map(y => y.name).join(', ')
-    bValue = b.cargoType.map(y => y.name).join(', ')
+    aValue = a[TRUCK_FIELDS.CARGO_TYPE].map(y => y.name).join(', ')
+    bValue = b[TRUCK_FIELDS.CARGO_TYPE].map(y => y.name).join(', ')
   } else if (order === TRUCK_FIELDS.STATUS) {
-    aValue = STATUS[a.status]
-    bValue = STATUS[b.status]
+    aValue = TRUCK_STATUS[a.status]
+    bValue = TRUCK_STATUS[b.status]
   }
   return (aValue > bValue ? 1 : -1) * desc
 }).slice((page - 1) * size, page * size))
@@ -31,9 +32,9 @@ class List extends Component {
     super(props)
 
     const { page, data } = props
-    const order = TRUCK_FIELDS.PLATE
+    const order = DEFAULT_TRUCK_SORT_FIELD
     const desc = 1
-    const size = DEFAULT_SIZE
+    const size = DEFAULT_TRUCK_PAGE_SIZE
     const total = data.length
 
     this.state = {
@@ -52,12 +53,11 @@ class List extends Component {
       const {
         order, desc, size,
       } = this.state
-      this.setState({ data: sortData(nextProps.data, order, desc, nextProps.page, size), page: nextProps.page })
+      this.setState({ data: sortData(nextProps.data, order, desc, nextProps.page, size), page: nextProps.page, total: nextProps.data.length })
     }
   }
 
   containKeyword = (str, keyword) => !keyword || str.toLowerCase().includes(keyword.toLowerCase())
-
 
   onOrderChange = (newOrder) => {
     const {
@@ -70,58 +70,64 @@ class List extends Component {
 
   render() {
     const {
-      viewItem, editItem, removeItem, keyword,
+      viewItem, editItem, removeItem, keyword, displayDriver,
     } = this.props
-    const { data, page, total } = this.state
-    const numberOfPage = Math.ceil(total / DEFAULT_SIZE)
+    const {
+      data, page, total, order, desc,
+    } = this.state
+    const numberOfPage = Math.ceil(total / DEFAULT_TRUCK_PAGE_SIZE)
     return (
       <React.Fragment>
-        <div className="home__list">
+        <div className="list">
           <table className="home__table">
             <thead>
               <tr>
-                <th onClick={() => this.onOrderChange(TRUCK_FIELDS.PLATE)}>Truck plate</th>
-                <th onClick={() => this.onOrderChange(TRUCK_FIELDS.CARGO_TYPE)}>Cargo type</th>
-                <th onClick={() => this.onOrderChange(TRUCK_FIELDS.DRIVER)}>Driver</th>
-                <th onClick={() => this.onOrderChange(TRUCK_FIELDS.TRUCK_TYPE)}>Truck type</th>
-                <th onClick={() => this.onOrderChange(TRUCK_FIELDS.PRICE)}>Price</th>
-                <th onClick={() => this.onOrderChange(TRUCK_FIELDS.DIMENSION)}>Dimension (L-W-H)</th>
-                <th onClick={() => this.onOrderChange(TRUCK_FIELDS.PARKING_ADDRESS)}>Parking Address</th>
-                <th onClick={() => this.onOrderChange(TRUCK_FIELDS.PRODUCTION_YEAR)}>Prod. year</th>
-                <th onClick={() => this.onOrderChange(TRUCK_FIELDS.STATUS)}>Status</th>
-                <th onClick={() => this.onOrderChange(TRUCK_FIELDS.DESCRIPTION)}>Description</th>
+                <th className={getSortClass(order, desc, TRUCK_FIELDS.PLATE)} onClick={() => this.onOrderChange(TRUCK_FIELDS.PLATE)}>Truck plate</th>
+                <th className={getSortClass(order, desc, TRUCK_FIELDS.CARGO_TYPE)} onClick={() => this.onOrderChange(TRUCK_FIELDS.CARGO_TYPE)}>Cargo type</th>
+                <th className={getSortClass(order, desc, TRUCK_FIELDS.DRIVER)} onClick={() => this.onOrderChange(TRUCK_FIELDS.DRIVER)}>Driver</th>
+                <th className={getSortClass(order, desc, TRUCK_FIELDS.TRUCK_TYPE)} onClick={() => this.onOrderChange(TRUCK_FIELDS.TRUCK_TYPE)}>Truck type</th>
+                <th className={getSortClass(order, desc, TRUCK_FIELDS.PRICE)} onClick={() => this.onOrderChange(TRUCK_FIELDS.PRICE)}>Price</th>
+                <th className={getSortClass(order, desc, TRUCK_FIELDS.DIMENSION)} onClick={() => this.onOrderChange(TRUCK_FIELDS.DIMENSION)}>Dimension (L-W-H)</th>
+                <th className={getSortClass(order, desc, TRUCK_FIELDS.PARKING_ADDRESS)} onClick={() => this.onOrderChange(TRUCK_FIELDS.PARKING_ADDRESS)}>Parking Address</th>
+                <th className={getSortClass(order, desc, TRUCK_FIELDS.PRODUCTION_YEAR)} onClick={() => this.onOrderChange(TRUCK_FIELDS.PRODUCTION_YEAR)}>Prod. year</th>
+                <th className={getSortClass(order, desc, TRUCK_FIELDS.STATUS)} onClick={() => this.onOrderChange(TRUCK_FIELDS.STATUS)}>Status</th>
+                <th className={getSortClass(order, desc, TRUCK_FIELDS.DESCRIPTION)} onClick={() => this.onOrderChange(TRUCK_FIELDS.DESCRIPTION)}>Description</th>
                 <th />
               </tr>
             </thead>
             <tbody>
               {
                 data.map(x => (
-                  <tr key={x.plate}>
-                    <td dangerouslySetInnerHTML={{ __html: highlight(x.plate, keyword) }} />
-                    <td dangerouslySetInnerHTML={{ __html: highlight(x.cargoType.length === 0 ? '' : x.cargoType.map(y => y.name).join(', '), keyword) }} />
-                    <td dangerouslySetInnerHTML={{ __html: highlight((x.driver && x.driver.name) ? x.driver.name : '', keyword) }} />
-                    <td dangerouslySetInnerHTML={{ __html: highlight(x.truckType, keyword) }} />
-                    <td dangerouslySetInnerHTML={{ __html: highlight(formatLargeNumber(x.price), keyword) }} />
-                    <td dangerouslySetInnerHTML={{ __html: highlight(x.dimension, keyword) }} />
-                    <td dangerouslySetInnerHTML={{ __html: highlight(x.parkingAddress, keyword) }} />
-                    <td dangerouslySetInnerHTML={{ __html: highlight(x.productionYear.toString(), keyword) }} />
-                    <td className={x.status === 3 ? 'text-red' : (x.status === 2 ? 'text-blue' : 'text-normal')} dangerouslySetInnerHTML={{ __html: highlight(STATUS[x.status], keyword) }} />
-                    <td dangerouslySetInnerHTML={{ __html: highlight(x.description, keyword) }} />
+                  <tr key={x[TRUCK_FIELDS.PLATE]}>
+                    <td dangerouslySetInnerHTML={{ __html: highlight(x[TRUCK_FIELDS.PLATE], keyword) }} />
+                    <td dangerouslySetInnerHTML={{ __html: highlight(x[TRUCK_FIELDS.CARGO_TYPE].length === 0 ? '' : x[TRUCK_FIELDS.CARGO_TYPE].map(y => y.name).join(', '), keyword) }} />
+                    <td
+                      role="presentation"
+                      dangerouslySetInnerHTML={{ __html: highlight((x[TRUCK_FIELDS.DRIVER] && x[TRUCK_FIELDS.DRIVER].name) ? x[TRUCK_FIELDS.DRIVER].name : '', keyword) }}
+                      onClick={() => displayDriver(x[TRUCK_FIELDS.DRIVER][DRIVER_FIELDS.ID])}
+                    />
+                    <td dangerouslySetInnerHTML={{ __html: highlight(x[TRUCK_FIELDS.TRUCK_TYPE], keyword) }} />
+                    <td dangerouslySetInnerHTML={{ __html: highlight(formatLargeNumber(x[TRUCK_FIELDS.PRICE]), keyword) }} />
+                    <td dangerouslySetInnerHTML={{ __html: highlight(x[TRUCK_FIELDS.DIMENSION], keyword) }} />
+                    <td dangerouslySetInnerHTML={{ __html: highlight(x[TRUCK_FIELDS.PARKING_ADDRESS], keyword) }} />
+                    <td dangerouslySetInnerHTML={{ __html: highlight(x[TRUCK_FIELDS.PRODUCTION_YEAR].toString(), keyword) }} />
+                    <td className={x[TRUCK_FIELDS.STATUS] === 3 ? 'text-red' : (x[TRUCK_FIELDS.STATUS] === 2 ? 'text-blue' : 'text-normal')} dangerouslySetInnerHTML={{ __html: highlight(TRUCK_STATUS[x[TRUCK_FIELDS.STATUS]], keyword) }} />
+                    <td dangerouslySetInnerHTML={{ __html: highlight(x[TRUCK_FIELDS.DESCRIPTION], keyword) }} />
                     <td className="d-flex justify-content-center">
                       <img
-                        className="home__action"
+                        className="list__action"
                         src={ViewImg} alt="View"
                         role="presentation"
                         onClick={() => viewItem(x)}
                       />
                       <img
-                        className="home__action"
+                        className="list__action"
                         src={EditImg} alt="Edit"
                         role="presentation"
                         onClick={() => editItem(x)}
                       />
                       <img
-                        className="home__action"
+                        className="list__action"
                         src={RemoveImg} alt="Remove"
                         role="presentation"
                         onClick={() => removeItem(x)}
@@ -133,25 +139,12 @@ class List extends Component {
             </tbody>
           </table>
         </div>
-        <div className="pagination">
-          <nav aria-label="...">
-            <ul className="pagination">
-              <li className={`page-item ${page === '1' ? ' disabled' : ''}`}>
-                <Link className="page-link" to={`/page/${parseInt(page, 10) - 1}`}>Previous</Link>
-              </li>
-              {
-                Array.from(Array(numberOfPage).keys()).map(x => (
-                  <li key={`page_${x}`} className={`page-item${page === (x + 1).toString() ? ' active' : ''}`}>
-                    <Link className="page-link" to={`/page/${x + 1}`}>{x + 1}</Link>
-                  </li>
-                ))
-              }
-              <li className={`page-item ${page === '2' ? ' disabled' : ''}`}>
-                <Link className="page-link" to={`/page/${parseInt(page, 10) + 1}`}>Next</Link>
-              </li>
-            </ul>
-          </nav>
-        </div>
+        <Pagination
+          url="/page"
+          numberOfPage={numberOfPage}
+          page={page}
+          disabled={total === 0}
+        />
       </React.Fragment>
     )
   }
@@ -165,6 +158,7 @@ List.propTypes = {
   removeItem: PropTypes.func,
   keyword: PropTypes.string,
   page: PropTypes.string,
+  displayDriver: PropTypes.func,
 }
 
 export default List

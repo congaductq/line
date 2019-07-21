@@ -1,4 +1,5 @@
 @import "common/color.less";
+@import "common/with-table-and-form.less";
 
 // LAYOUT
 body {
@@ -44,6 +45,7 @@ footer {
 }
 .tms-nav-bar {
   display: flex;
+  flex-wrap: wrap;
   height: 40px;
 }
 .tms-nav-item {
@@ -85,4 +87,18 @@ a {
 }
 .container {
   max-width: 1400px;
+}
+
+// RESPONSIVE
+@media (max-width: 767px) {
+  .tms-logo {
+    font-size: 25px;
+  }
+  .tms-nav-item {
+    font-size: 14px;
+    padding: 0 5px;
+  }
+  main {
+    padding: 15px 0;
+  }
 }

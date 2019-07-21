@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 class SuggestionBox extends Component {
   render() {
     const {
-      suggestions, field, mainSuggestionField, onSelect,
+      suggestions, field, mainSuggestionField, onSelect, additionalFields,
     } = this.props
     return (
       <div className="suggestion__box">
@@ -15,7 +15,7 @@ class SuggestionBox extends Component {
                 <tr key={`${field}_${x.id}`} onClick={() => onSelect(x)}>
                   <td>{x[mainSuggestionField]}</td>
                   {
-                    Object.keys(x).filter(y => y !== mainSuggestionField && y !== 'id').map(subField => (
+                    additionalFields.map(subField => (
                       <td key={`${field}_${x[subField]}`}>{x[subField]}</td>
                     ))
                   }
@@ -34,6 +34,7 @@ SuggestionBox.propTypes = {
   field: PropTypes.string,
   mainSuggestionField: PropTypes.string,
   onSelect: PropTypes.func,
+  additionalFields: PropTypes.arrayOf(PropTypes.string).isRequired,
 }
 
 SuggestionBox.defaultProps = {
