@@ -8,7 +8,7 @@ import '~/static/less/cargo-type.less'
 import { MODAL_TYPE, MESSAGE_TYPE, CARGO_TYPE_MODAL_MESSAGE } from '~/constants/modal'
 import {
   DefaultCargoTypeList, createCargoType, removeCargoType, editCargoType,
-} from '~/constants/default'
+} from '~/utils/action'
 import { KEYS, get } from '~/utils/localStorage'
 import { containKeyword } from '~/utils/common'
 import { CARGO_TYPE_FIELDS, CARGO_TYPE_STATUS } from '~/constants/cargo-type'
@@ -70,9 +70,11 @@ class CargoTypePage extends Component {
 
   editItemDone = (item) => {
     const { data } = this.state
-    const index = data.findIndex(x => x[CARGO_TYPE_FIELDS.ID] === item[CARGO_TYPE_FIELDS.ID])
-    if (index !== -1) {
-      const { data: dataCargoType } = editCargoType(data, item, index)
+    const result = editCargoType(data, item)
+    if (result === null) {
+      this.setState({ messageType: MESSAGE_TYPE.WARNING, modalMessage: CARGO_TYPE_MODAL_MESSAGE.NAME_EXISTED })
+    } else {
+      const { data: dataCargoType } = result
       this.setState({ data: dataCargoType, messageType: MESSAGE_TYPE.SUCCESS, modalMessage: CARGO_TYPE_MODAL_MESSAGE.EDIT_SUCCESS })
       this.closeModal()
     }
@@ -93,7 +95,8 @@ class CargoTypePage extends Component {
   removeItem = (item) => {
     /* eslint-disable no-alert */
     if (window.confirm('Do you really want to remove this item?')) {
-      this.setState({ data: removeCargoType(item) })
+      const { data } = this.state
+      this.setState({ data: removeCargoType(data, item) })
     }
   }
 

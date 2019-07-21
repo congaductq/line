@@ -3,7 +3,7 @@ import { render } from '@testing-library/react'
 
 import App from '../src/App'
 
-describe('With React Testing Library', () => {
+describe('Testing Render', () => {
   it('Shows "TRUM"', () => {
     const { getByText } = render(<App />)
 
@@ -11,7 +11,7 @@ describe('With React Testing Library', () => {
   })
 })
 
-describe('With React Testing Library Snapshot', () => {
+describe('Testing Render Snapshot', () => {
   it('Should match Snapshot', () => {
     const { asFragment } = render(<App />)
 

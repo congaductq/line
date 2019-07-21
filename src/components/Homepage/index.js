@@ -10,7 +10,7 @@ import {
 } from '~/constants/modal'
 import {
   DefaultTruckList, DefaultDriverList, createTruck, editTruck, editDriver, removeTruck,
-} from '~/constants/default'
+} from '~/utils/action'
 import { TRUCK_FIELDS, TRUCK_STATUS } from '~/constants/truck'
 import { KEYS, get } from '~/utils/localStorage'
 import { formatLargeNumber } from '~/utils/textFormatter'
@@ -70,24 +70,23 @@ class Homepage extends Component {
 
   createItemDone = (item) => {
     const { data } = this.state
-    if (data.findIndex(x => x[TRUCK_FIELDS.PLATE] === item[TRUCK_FIELDS.PLATE]) !== -1) {
+    const newData = createTruck(data, item)
+    if (newData === null) {
       this.setState({ messageType: MESSAGE_TYPE.WARNING, modalMessage: TRUCK_MODAL_MESSAGE.PLATE_EXISTED })
     } else {
-      this.setState({ data: createTruck(data, item), messageType: MESSAGE_TYPE.SUCCESS, modalMessage: TRUCK_MODAL_MESSAGE.CREATE_SUCCESS })
+      this.setState({ data: newData, messageType: MESSAGE_TYPE.SUCCESS, modalMessage: TRUCK_MODAL_MESSAGE.CREATE_SUCCESS })
       this.closeModal()
     }
   }
 
   editItemDone = (item) => {
     const { data } = this.state
-    if (data.filter(x => x[TRUCK_FIELDS.ID] !== item[TRUCK_FIELDS.ID]).findIndex(x => x[TRUCK_FIELDS.PLATE] === item[TRUCK_FIELDS.PLATE]) !== -1) {
+    const newData = editTruck(data, item)
+    if (newData === null) {
       this.setState({ messageType: MESSAGE_TYPE.WARNING, modalMessage: TRUCK_MODAL_MESSAGE.PLATE_EXISTED })
     } else {
-      const index = data.findIndex(x => x[TRUCK_FIELDS.ID] === item[TRUCK_FIELDS.ID])
-      if (index !== -1) {
-        this.setState({ data: editTruck(data, item, index), messageType: MESSAGE_TYPE.SUCCESS, modalMessage: TRUCK_MODAL_MESSAGE.EDIT_SUCCESS })
-        this.closeModal()
-      }
+      this.setState({ data: editTruck(data, item), messageType: MESSAGE_TYPE.SUCCESS, modalMessage: TRUCK_MODAL_MESSAGE.EDIT_SUCCESS })
+      this.closeModal()
     }
   }
 
@@ -106,7 +105,8 @@ class Homepage extends Component {
   removeItem = (item) => {
     /* eslint-disable no-alert */
     if (window.confirm('Do you really want to remove this item?')) {
-      this.setState({ data: removeTruck(item) })
+      const { data } = this.state
+      this.setState({ data: removeTruck(data, item) })
     }
   }
 
@@ -145,9 +145,11 @@ class Homepage extends Component {
 
   editItemDoneDriver = (item) => {
     const { dataDriver } = this.state
-    const index = dataDriver.findIndex(x => x[DRIVER_FIELDS.ID] === item[DRIVER_FIELDS.ID])
-    if (index !== -1) {
-      const { data: newData, dataTruck } = editDriver(dataDriver, item, index)
+    const result = editDriver(dataDriver, item)
+    if (result === null) {
+      this.setState({ messageTypeDriver: MESSAGE_TYPE.WARNING, modalMessageDriver: DRIVER_MODAL_MESSAGE.ERROR })
+    } else {
+      const { data: newData, dataTruck } = result
       this.setState({
         dataDriver: newData, data: dataTruck, messageTypeDriver: MESSAGE_TYPE.SUCCESS, modalMessageDriver: DRIVER_MODAL_MESSAGE.EDIT_SUCCESS,
       })

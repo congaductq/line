@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`With React Testing Library Snapshot Should match Snapshot 1`] = `
+exports[`Testing Render Snapshot Should match Snapshot 1`] = `
 <DocumentFragment>
   <div>
     <header>
@@ -20,13 +20,13 @@ exports[`With React Testing Library Snapshot Should match Snapshot 1`] = `
             class="tms-nav-item  active"
             href="/"
           >
-            Truck List
+            Truck
           </a>
           <a
             class="tms-nav-item "
-            href="/user"
+            href="/driver"
           >
-            User
+            Driver
           </a>
           <a
             class="tms-nav-item "
@@ -47,7 +47,7 @@ exports[`With React Testing Library Snapshot Should match Snapshot 1`] = `
       class="container"
     >
       <div
-        class="control"
+        class="list__control"
       >
         <div
           class="popup__btn"
@@ -65,41 +65,61 @@ exports[`With React Testing Library Snapshot Should match Snapshot 1`] = `
         />
       </div>
       <div
-        class="home__list"
+        class="list"
       >
         <table
           class="home__table"
         >
           <thead>
             <tr>
-              <th>
+              <th
+                class="desc"
+              >
                 Truck plate
               </th>
-              <th>
+              <th
+                class=""
+              >
                 Cargo type
               </th>
-              <th>
+              <th
+                class=""
+              >
                 Driver
               </th>
-              <th>
+              <th
+                class=""
+              >
                 Truck type
               </th>
-              <th>
+              <th
+                class=""
+              >
                 Price
               </th>
-              <th>
+              <th
+                class=""
+              >
                 Dimension (L-W-H)
               </th>
-              <th>
+              <th
+                class=""
+              >
                 Parking Address
               </th>
-              <th>
+              <th
+                class=""
+              >
                 Prod. year
               </th>
-              <th>
+              <th
+                class=""
+              >
                 Status
               </th>
-              <th>
+              <th
+                class=""
+              >
                 Description
               </th>
               <th />
@@ -253,7 +273,9 @@ exports[`With React Testing Library Snapshot Should match Snapshot 1`] = `
                   class="highlight"
                 />
               </td>
-              <td>
+              <td
+                role="presentation"
+              >
                 <b
                   class="highlight"
                 />
@@ -592,19 +614,19 @@ exports[`With React Testing Library Snapshot Should match Snapshot 1`] = `
               >
                 <img
                   alt="View"
-                  class="home__action"
+                  class="list__action"
                   role="presentation"
                   src="[object Object]"
                 />
                 <img
                   alt="Edit"
-                  class="home__action"
+                  class="list__action"
                   role="presentation"
                   src="[object Object]"
                 />
                 <img
                   alt="Remove"
-                  class="home__action"
+                  class="list__action"
                   role="presentation"
                   src="[object Object]"
                 />
@@ -693,7 +715,9 @@ exports[`With React Testing Library Snapshot Should match Snapshot 1`] = `
                   class="highlight"
                 />
               </td>
-              <td>
+              <td
+                role="presentation"
+              >
                 <b
                   class="highlight"
                 />
@@ -1080,19 +1104,19 @@ exports[`With React Testing Library Snapshot Should match Snapshot 1`] = `
               >
                 <img
                   alt="View"
-                  class="home__action"
+                  class="list__action"
                   role="presentation"
                   src="[object Object]"
                 />
                 <img
                   alt="Edit"
-                  class="home__action"
+                  class="list__action"
                   role="presentation"
                   src="[object Object]"
                 />
                 <img
                   alt="Remove"
-                  class="home__action"
+                  class="list__action"
                   role="presentation"
                   src="[object Object]"
                 />
@@ -1241,7 +1265,9 @@ exports[`With React Testing Library Snapshot Should match Snapshot 1`] = `
                   class="highlight"
                 />
               </td>
-              <td>
+              <td
+                role="presentation"
+              >
                 <b
                   class="highlight"
                 />
@@ -1548,19 +1574,19 @@ exports[`With React Testing Library Snapshot Should match Snapshot 1`] = `
               >
                 <img
                   alt="View"
-                  class="home__action"
+                  class="list__action"
                   role="presentation"
                   src="[object Object]"
                 />
                 <img
                   alt="Edit"
-                  class="home__action"
+                  class="list__action"
                   role="presentation"
                   src="[object Object]"
                 />
                 <img
                   alt="Remove"
-                  class="home__action"
+                  class="list__action"
                   role="presentation"
                   src="[object Object]"
                 />
@@ -1677,7 +1703,9 @@ exports[`With React Testing Library Snapshot Should match Snapshot 1`] = `
                   class="highlight"
                 />
               </td>
-              <td>
+              <td
+                role="presentation"
+              >
                 <b
                   class="highlight"
                 />
@@ -2000,19 +2028,19 @@ exports[`With React Testing Library Snapshot Should match Snapshot 1`] = `
               >
                 <img
                   alt="View"
-                  class="home__action"
+                  class="list__action"
                   role="presentation"
                   src="[object Object]"
                 />
                 <img
                   alt="Edit"
-                  class="home__action"
+                  class="list__action"
                   role="presentation"
                   src="[object Object]"
                 />
                 <img
                   alt="Remove"
-                  class="home__action"
+                  class="list__action"
                   role="presentation"
                   src="[object Object]"
                 />
@@ -2113,7 +2141,9 @@ exports[`With React Testing Library Snapshot Should match Snapshot 1`] = `
                   class="highlight"
                 />
               </td>
-              <td>
+              <td
+                role="presentation"
+              >
                 <b
                   class="highlight"
                 />
@@ -2420,19 +2450,19 @@ exports[`With React Testing Library Snapshot Should match Snapshot 1`] = `
               >
                 <img
                   alt="View"
-                  class="home__action"
+                  class="list__action"
                   role="presentation"
                   src="[object Object]"
                 />
                 <img
                   alt="Edit"
-                  class="home__action"
+                  class="list__action"
                   role="presentation"
                   src="[object Object]"
                 />
                 <img
                   alt="Remove"
-                  class="home__action"
+                  class="list__action"
                   role="presentation"
                   src="[object Object]"
                 />
@@ -2493,7 +2523,9 @@ exports[`With React Testing Library Snapshot Should match Snapshot 1`] = `
                   class="highlight"
                 />
               </td>
-              <td>
+              <td
+                role="presentation"
+              >
                 <b
                   class="highlight"
                 />
@@ -2800,19 +2832,19 @@ exports[`With React Testing Library Snapshot Should match Snapshot 1`] = `
               >
                 <img
                   alt="View"
-                  class="home__action"
+                  class="list__action"
                   role="presentation"
                   src="[object Object]"
                 />
                 <img
                   alt="Edit"
-                  class="home__action"
+                  class="list__action"
                   role="presentation"
                   src="[object Object]"
                 />
                 <img
                   alt="Remove"
-                  class="home__action"
+                  class="list__action"
                   role="presentation"
                   src="[object Object]"
                 />
@@ -2913,7 +2945,9 @@ exports[`With React Testing Library Snapshot Should match Snapshot 1`] = `
                   class="highlight"
                 />
               </td>
-              <td>
+              <td
+                role="presentation"
+              >
                 <b
                   class="highlight"
                 />
@@ -3324,19 +3358,19 @@ exports[`With React Testing Library Snapshot Should match Snapshot 1`] = `
               >
                 <img
                   alt="View"
-                  class="home__action"
+                  class="list__action"
                   role="presentation"
                   src="[object Object]"
                 />
                 <img
                   alt="Edit"
-                  class="home__action"
+                  class="list__action"
                   role="presentation"
                   src="[object Object]"
                 />
                 <img
                   alt="Remove"
-                  class="home__action"
+                  class="list__action"
                   role="presentation"
                   src="[object Object]"
                 />
@@ -3449,7 +3483,9 @@ exports[`With React Testing Library Snapshot Should match Snapshot 1`] = `
                   class="highlight"
                 />
               </td>
-              <td>
+              <td
+                role="presentation"
+              >
                 <b
                   class="highlight"
                 />
@@ -3780,19 +3816,19 @@ exports[`With React Testing Library Snapshot Should match Snapshot 1`] = `
               >
                 <img
                   alt="View"
-                  class="home__action"
+                  class="list__action"
                   role="presentation"
                   src="[object Object]"
                 />
                 <img
                   alt="Edit"
-                  class="home__action"
+                  class="list__action"
                   role="presentation"
                   src="[object Object]"
                 />
                 <img
                   alt="Remove"
-                  class="home__action"
+                  class="list__action"
                   role="presentation"
                   src="[object Object]"
                 />
@@ -3913,7 +3949,9 @@ exports[`With React Testing Library Snapshot Should match Snapshot 1`] = `
                   class="highlight"
                 />
               </td>
-              <td>
+              <td
+                role="presentation"
+              >
                 <b
                   class="highlight"
                 />
@@ -4220,19 +4258,19 @@ exports[`With React Testing Library Snapshot Should match Snapshot 1`] = `
               >
                 <img
                   alt="View"
-                  class="home__action"
+                  class="list__action"
                   role="presentation"
                   src="[object Object]"
                 />
                 <img
                   alt="Edit"
-                  class="home__action"
+                  class="list__action"
                   role="presentation"
                   src="[object Object]"
                 />
                 <img
                   alt="Remove"
-                  class="home__action"
+                  class="list__action"
                   role="presentation"
                   src="[object Object]"
                 />
@@ -4385,7 +4423,9 @@ exports[`With React Testing Library Snapshot Should match Snapshot 1`] = `
                   class="highlight"
                 />
               </td>
-              <td>
+              <td
+                role="presentation"
+              >
                 <b
                   class="highlight"
                 />
@@ -4696,19 +4736,19 @@ exports[`With React Testing Library Snapshot Should match Snapshot 1`] = `
               >
                 <img
                   alt="View"
-                  class="home__action"
+                  class="list__action"
                   role="presentation"
                   src="[object Object]"
                 />
                 <img
                   alt="Edit"
-                  class="home__action"
+                  class="list__action"
                   role="presentation"
                   src="[object Object]"
                 />
                 <img
                   alt="Remove"
-                  class="home__action"
+                  class="list__action"
                   role="presentation"
                   src="[object Object]"
                 />
@@ -5105,6 +5145,244 @@ exports[`With React Testing Library Snapshot Should match Snapshot 1`] = `
                 type="submit"
               >
                 Create
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div
+        class="popup"
+        style="display: none;"
+      >
+        <div
+          class="popup__bg"
+          role="button"
+          tabindex="0"
+        />
+        <div
+          class="popup__main"
+        >
+          <div
+            class="popup__header__container"
+          >
+            <div
+              class="d-flex"
+            >
+               
+            </div>
+            <div
+              class="popup__header"
+            >
+              View Driver
+            </div>
+            <div
+              role="button"
+              tabindex="0"
+            >
+              <img
+                alt="close"
+                class="popup__header__button"
+                src="[object Object]"
+              />
+            </div>
+          </div>
+          <form
+            class="popup__modal"
+          >
+            <div
+              class="row"
+            >
+              <div
+                class="col-12 col-lg-4"
+              >
+                <div
+                  class="tms-input"
+                >
+                  <div
+                    class="tms-input__label"
+                  >
+                    Name
+                    <span
+                      style="color: red; margin-left: 3px; margin-right: 6px;"
+                    >
+                      *
+                    </span>
+                  </div>
+                  <input
+                    class="form-control d-flex w-100"
+                    disabled=""
+                    id="name"
+                    maxlength="50"
+                    required=""
+                    type="text"
+                    value=""
+                  />
+                </div>
+              </div>
+              <div
+                class="col-12 col-lg-4"
+              >
+                <div
+                  class="tms-input"
+                >
+                  <div
+                    class="tms-input__label"
+                  >
+                    Year of birth
+                    <span
+                      style="color: red; margin-left: 3px; margin-right: 6px;"
+                    >
+                      *
+                    </span>
+                  </div>
+                  <input
+                    class="form-control"
+                    disabled=""
+                    max="1999"
+                    min="1954"
+                    required=""
+                    step="1"
+                    type="number"
+                    value=""
+                  />
+                </div>
+              </div>
+              <div
+                class="col-12 col-lg-4"
+              >
+                <div
+                  class="tms-input"
+                >
+                  <div
+                    class="tms-input__label"
+                  >
+                    License ID
+                  </div>
+                  <input
+                    class="form-control d-flex w-100"
+                    disabled=""
+                    maxlength="12"
+                    type="text"
+                    value=""
+                  />
+                </div>
+              </div>
+              <div
+                class="col-12"
+              >
+                <div
+                  class="tms-input"
+                >
+                  <div
+                    class="tms-input__label"
+                  >
+                    Address (0/500)
+                  </div>
+                  <textarea
+                    class="form-control d-flex w-100"
+                    disabled=""
+                    maxlength="500"
+                    rows="2"
+                    type="text"
+                  />
+                </div>
+              </div>
+              <div
+                class="col-12"
+              >
+                <div
+                  class="tms-input"
+                >
+                  <div
+                    class="tms-input__label"
+                  >
+                    Note (0/200)
+                  </div>
+                  <textarea
+                    class="form-control d-flex w-100"
+                    disabled=""
+                    maxlength="200"
+                    rows="2"
+                    type="text"
+                  />
+                </div>
+              </div>
+              <div
+                class="col-12"
+              >
+                <div
+                  class="tms-input"
+                >
+                  <div
+                    class="tms-input__label"
+                  >
+                    Status
+                    <span
+                      style="color: red; margin-left: 3px; margin-right: 6px;"
+                    >
+                      *
+                    </span>
+                  </div>
+                  <div
+                    class="d-flex flex-wrap"
+                  >
+                    <label
+                      for="Active"
+                      style="white-space: nowrap;"
+                    >
+                      <input
+                        disabled=""
+                        id="Active"
+                        name="status"
+                        required=""
+                        type="radio"
+                        value="1"
+                      />
+                      Active
+                    </label>
+                    <label
+                      for="Inactive"
+                      style="white-space: nowrap;"
+                    >
+                      <input
+                        disabled=""
+                        id="Inactive"
+                        name="status"
+                        required=""
+                        type="radio"
+                        value="2"
+                      />
+                      Inactive
+                    </label>
+                    <label
+                      for="Has left"
+                      style="white-space: nowrap;"
+                    >
+                      <input
+                        disabled=""
+                        id="Has left"
+                        name="status"
+                        required=""
+                        type="radio"
+                        value="3"
+                      />
+                      Has left
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="popup__message success"
+            />
+            <div
+              class="d-flex justify-content-center"
+            >
+              <button
+                class="popup__main__action"
+                type="button"
+              >
+                Edit Driver
               </button>
             </div>
           </form>

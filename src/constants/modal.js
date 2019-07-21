@@ -19,6 +19,7 @@ export const TRUCK_MODAL_MESSAGE = {
 
 export const DRIVER_MODAL_MESSAGE = {
   EMPTY: '',
+  ERROR: 'Invalid input!',
   CREATE_SUCCESS: 'Item is created successfully!',
   EDIT_SUCCESS: 'Item is edited successfully!',
 }

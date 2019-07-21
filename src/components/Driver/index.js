@@ -8,7 +8,7 @@ import '~/static/less/driver.less'
 import { MODAL_TYPE, MESSAGE_TYPE, DRIVER_MODAL_MESSAGE } from '~/constants/modal'
 import {
   DefaultDriverList, createDriver, removeDriver, editDriver,
-} from '~/constants/default'
+} from '~/utils/action'
 import { DRIVER_FIELDS, DRIVER_STATUS } from '~/constants/driver'
 import { KEYS, get } from '~/utils/localStorage'
 import { containKeyword } from '~/utils/common'
@@ -43,7 +43,7 @@ class DriverPage extends Component {
       modalType,
       modalData,
       messageType: MESSAGE_TYPE.SUCCESS,
-      modalMessage: '',
+      modalMessage: DRIVER_MODAL_MESSAGE.EMPTY,
     }
   }
 
@@ -82,9 +82,11 @@ class DriverPage extends Component {
 
   editItemDone = (item) => {
     const { data } = this.state
-    const index = data.findIndex(x => x[DRIVER_FIELDS.ID] === item[DRIVER_FIELDS.ID])
-    if (index !== -1) {
-      const { data: dataDriver } = editDriver(data, item, index)
+    const result = editDriver(data, item)
+    if (result === null) {
+      this.setState({ messageType: MESSAGE_TYPE.WARNING, modalMessage: DRIVER_MODAL_MESSAGE.ERROR })
+    } else {
+      const { data: dataDriver } = result
       this.setState({ data: dataDriver, messageType: MESSAGE_TYPE.SUCCESS, modalMessage: DRIVER_MODAL_MESSAGE.EDIT_SUCCESS })
       this.closeModal()
     }
@@ -105,7 +107,8 @@ class DriverPage extends Component {
   removeItem = (item) => {
     /* eslint-disable no-alert */
     if (window.confirm('Do you really want to remove this item?')) {
-      this.setState({ data: removeDriver(item) })
+      const { data } = this.state
+      this.setState({ data: removeDriver(data, item) })
     }
   }
 
