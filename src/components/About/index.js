@@ -18,9 +18,8 @@ class About extends Component {
                 Truck Management System is a transportation business management software.
                 TRUM helps you to easily manage your Truck list.
               </p>
-              <br />
               <p>
-                The data&apos; constraints of the system:
+                Truck data:
               </p>
               <ul>
                 <li>
@@ -32,13 +31,23 @@ class About extends Component {
                 <li>Production year range is from 1980 to 2030.</li>
                 <li>Cargo type must be less than or equal 10 types.</li>
                 <li>Address must be less than or equal 500 characters.</li>
-                <li>Description must be less than or equal 500 characters.</li>
-                <li>Cargo type must be less than or equal 30 characters.</li>
+                <li>Description must be less than or equal 200 characters.</li>
+              </ul>
+              <p>Driver data:</p>
+              <ul>
                 <li>Driver&apos;s name must be less than or equal 50 characters.</li>
                 <li>
                   Driver&apos;s year of born must be between
                   {` ${DRIVER_MIN_BORN_YEAR} and ${DRIVER_MAX_BORN_YEAR}.`}
                 </li>
+                <li>Address must be less than or equal 500 characters.</li>
+                <li>Note must be less than or equal 200 characters.</li>
+              </ul>
+              <p>Cargo Type data:</p>
+              <ul>
+                <li>Name must be less than or equal 50 characters.</li>
+                <li>Description must be less than or equal 200 characters.</li>
+                <li>Note must be less than or equal 200 characters.</li>
               </ul>
             </div>
           </div>

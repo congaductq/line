@@ -1,5 +1,6 @@
 const path = require('path')
 const HWP = require('html-webpack-plugin')
+const HTMLWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = {
   entry: path.join(__dirname, '/src/index.js'),
@@ -50,5 +51,9 @@ module.exports = {
     new HWP(
       { template: path.join(__dirname, '/src/index.html') },
     ),
+    new HTMLWebpackPlugin({
+      template: path.join(__dirname, '/src/index.html'),
+      favicon: path.join(__dirname, '/src/static/favicon.ico'),
+    }),
   ],
 }
