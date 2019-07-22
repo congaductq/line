@@ -1,0 +1,93 @@
+commit 6728c0fb8d9c4c0022fe734e9ff47c7419e9bb5c
+Author: Kendy <congaductq@gmail.com>
+Date:   Mon Jul 22 09:24:50 2019 +0700
+
+    Split chunks
+
+commit 5d1d0373003511b6838ebb851de384c53d9364d1
+Author: Kendy <congaductq@gmail.com>
+Date:   Mon Jul 22 09:04:36 2019 +0700
+
+    [12] UI Improvement
+
+commit 62dbd805ce2c933f4a75368cdb632ea3a4b6312b
+Author: Kendy <congaductq@gmail.com>
+Date:   Mon Jul 22 01:53:38 2019 +0700
+
+    [11] Update Installation and Data Constaints
+
+commit c2d446932a996756147a33a4387f2a2e9fe00f5d
+Author: Kendy <congaductq@gmail.com>
+Date:   Mon Jul 22 00:54:17 2019 +0700
+
+    [10] Update testing for create, edit, delete function
+
+commit 2faface02393a7386fadbaf358d2b74e9d6a4808
+Author: Kendy <congaductq@gmail.com>
+Date:   Sun Jul 21 22:57:21 2019 +0700
+
+    [9] Driver and Cargo type page
+
+commit 38f55bd8d833757be2a232d4e2b670162b150515
+Author: Kendy <congaductq@gmail.com>
+Date:   Fri Jul 19 16:29:03 2019 +0700
+
+    [8] Express | Config to push heroku
+    
+    Config setting
+
+commit cfb62769759eb3d6dfd0d7bcefd31df0d74399d8
+Author: Kendy <congaductq@gmail.com>
+Date:   Fri Jul 19 16:21:13 2019 +0700
+
+    [7] Testing-1: Test fatal error
+
+commit 3e1d548b35bdd2b0d325840d33823150290533b4
+Author: Kendy <congaductq@gmail.com>
+Date:   Fri Jul 19 13:46:23 2019 +0700
+
+    [6] Update truck data's constraints and input style
+
+commit 51a71678dcb2f876abb32df835d7527aa1cd6eee
+Author: Kendy <congaductq@gmail.com>
+Date:   Fri Jul 19 11:43:24 2019 +0700
+
+    [5] Update About page with data's constraints
+
+commit 7aa15a737aa37ecbd3784f9c09ad9e7884617e58
+Author: Kendy <congaductq@gmail.com>
+Date:   Fri Jul 19 10:55:17 2019 +0700
+
+    [4] Create and Update Truck | Local Storage
+
+commit 668e19f3279fbe8a383bb83710fa8d38e60a62ef
+Author: Kendy <congaductq@gmail.com>
+Date:   Thu Jul 18 17:37:20 2019 +0700
+
+    [3] Pagination | Update URL for pagination | Update styles
+
+commit 2eeea8951484aebb521e58a6157be97424cfa037
+Author: Kendy <congaductq@gmail.com>
+Date:   Wed Jul 17 17:29:22 2019 +0700
+
+    [2] Search box | Update UI Table Truck List
+
+commit 7940ace759b40e6cdedf54a4acab73004f576ccd
+Author: Kendy <congaductq@gmail.com>
+Date:   Tue Jul 16 09:33:04 2019 +0700
+
+    [1] Layout and Navigation
+    
+    [1.1] Update Propstype, Key for list
+
+commit 1600b6728afacee3e0e6f8af273efdff4e7774ce
+Author: Kendy <congaductq@gmail.com>
+Date:   Mon Jul 15 13:50:21 2019 +0700
+
+    Init Project: React, Babel, Webpack, Eslint, Jest
+
+commit dc80d303f4925011dceadd70ae98f2e632ed2d9b
+Author: Đỗ Văn Đức <congaductq@gmail.com>
+Date:   Mon Jul 15 10:48:03 2019 +0700
+
+    Initial commit

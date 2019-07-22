@@ -50,3 +50,6 @@ http://line-ducdv.herokuapp.com
 
 ### Github Repository:
 https://github.com/congaductq/line
+
+### Github Commit Logs:
+[Github commits log text file](/commits.txt)
