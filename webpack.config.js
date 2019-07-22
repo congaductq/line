@@ -9,6 +9,11 @@ module.exports = {
     path: path.join(__dirname, '/dist'),
     publicPath: '/',
   },
+  optimization: {
+    splitChunks: {
+      chunks: 'all',
+    },
+  },
   module: {
     rules: [{
       test: /\.js$/,
