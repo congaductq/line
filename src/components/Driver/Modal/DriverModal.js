@@ -102,7 +102,7 @@ class DriverModal extends Component {
                   value={state[DRIVER_FIELDS.LICENSE_ID]}
                   onChange={event => this.onFieldChange(DRIVER_FIELDS.LICENSE_ID, event.target.value)}
                   disabled={disableField}
-                  maxLength="12"
+                  maxLength="15"
                 />
               </div>
             </div>

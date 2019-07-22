@@ -133,7 +133,8 @@ class Homepage extends Component {
   }
 
   displayDriver = (id) => {
-    const modalDataDriver = DefaultDriverList.find(x => x[DRIVER_FIELDS.ID] === id)
+    const { dataDriver } = this.state
+    const modalDataDriver = dataDriver.find(x => x[DRIVER_FIELDS.ID] === id)
     if (modalDataDriver) {
       this.setState({ modalDataDriver, displayModalDriver: true })
     }

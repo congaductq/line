@@ -54,8 +54,9 @@ class List extends Component {
 
   onOrderChange = (newOrder) => {
     const {
-      data, order, page, size,
+      order, page, size,
     } = this.state
+    const { data } = this.props
     let { desc } = this.state
     desc = (order === newOrder) ? -desc : 1
     this.setState({ order: newOrder, desc, data: sortData(data, newOrder, desc, page, size) })
@@ -76,8 +77,8 @@ class List extends Component {
             <thead>
               <tr>
                 <th className={getSortClass(order, desc, CARGO_TYPE_FIELDS.NAME)} onClick={() => this.onOrderChange(CARGO_TYPE_FIELDS.NAME)}>Name</th>
-                <th className={getSortClass(order, desc, CARGO_TYPE_FIELDS.DESCRIPTION)} onClick={() => this.onOrderChange(CARGO_TYPE_FIELDS.DESCRIPTION)}>DESCRIPTION</th>
-                <th className={getSortClass(order, desc, CARGO_TYPE_FIELDS.NOTE)} onClick={() => this.onOrderChange(CARGO_TYPE_FIELDS.NOTE)}>NOTE</th>
+                <th className={getSortClass(order, desc, CARGO_TYPE_FIELDS.DESCRIPTION)} onClick={() => this.onOrderChange(CARGO_TYPE_FIELDS.DESCRIPTION)}>Description</th>
+                <th className={getSortClass(order, desc, CARGO_TYPE_FIELDS.NOTE)} onClick={() => this.onOrderChange(CARGO_TYPE_FIELDS.NOTE)}>Note</th>
                 <th className={getSortClass(order, desc, CARGO_TYPE_FIELDS.STATUS)} onClick={() => this.onOrderChange(CARGO_TYPE_FIELDS.STATUS)}>Status</th>
                 <th />
               </tr>

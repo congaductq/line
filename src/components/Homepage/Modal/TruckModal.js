@@ -2,7 +2,9 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Modal from '~/components/Common/Modal'
-import { TRUCK_FIELDS, TRUCK_STATUS } from '~/constants/truck'
+import {
+  TRUCK_FIELDS, TRUCK_STATUS, TRUCK_MIN_PROD_YEAR, TRUCK_MAX_PROD_YEAR,
+} from '~/constants/truck'
 import { MODAL_TYPE, MESSAGE_TYPE } from '~/constants/modal'
 import AutocompleteInput from '~/components/Common/AutocompleteInput'
 import { DefaultDriverList, DefaultCargoTypeList } from '~/utils/action'
@@ -142,8 +144,8 @@ class TruckModal extends Component {
                   className="form-control"
                   value={state[TRUCK_FIELDS.PRODUCTION_YEAR]}
                   onChange={event => this.onFieldChange(TRUCK_FIELDS.PRODUCTION_YEAR, event.target.value)}
-                  min="1980"
-                  max="2030"
+                  min={TRUCK_MIN_PROD_YEAR}
+                  max={TRUCK_MAX_PROD_YEAR}
                   step="1"
                   disabled={disableField}
                 />

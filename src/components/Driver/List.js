@@ -54,8 +54,9 @@ class List extends Component {
 
   onOrderChange = (newOrder) => {
     const {
-      data, order, page, size,
+      order, page, size,
     } = this.state
+    const { data } = this.props
     let { desc } = this.state
     desc = (order === newOrder) ? -desc : 1
     this.setState({ order: newOrder, desc, data: sortData(data, newOrder, desc, page, size) })

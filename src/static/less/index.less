@@ -17,14 +17,7 @@
     cursor: pointer;
     font-size: 15px;
     text-align: center;
-    border-bottom: 3px solid transparent;
-    border-top: 3px solid transparent;
-    &.asc {
-      border-top: 3px solid @color-sort;
-    }
-    &.desc {
-      border-bottom: 3px solid @color-sort;
-    }
+    .order();
     &:hover {
         opacity: 0.9;
     }

@@ -21,3 +21,7 @@ export const TRUCK_STATUS = {
 export const DEFAULT_TRUCK_SORT_FIELD = TRUCK_FIELDS.PLATE
 
 export const DEFAULT_TRUCK_PAGE_SIZE = 10
+
+export const TRUCK_MIN_PROD_YEAR = (new Date()).getFullYear() - 30
+
+export const TRUCK_MAX_PROD_YEAR = (new Date()).getFullYear() + 5

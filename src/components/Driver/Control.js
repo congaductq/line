@@ -12,7 +12,7 @@ class Control extends Component {
         <input
           className="form-control search-form"
           name="keyword"
-          placeholder="Search plate, driver..."
+          placeholder="Search name, license ID..."
           onChange={event => updateKeyword(event.target.value)}
           autoComplete="off"
           value={keyword}
